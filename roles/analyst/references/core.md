@@ -241,3 +241,8 @@ Status mapping:
 - `../../../templates/artifacts/requirements-check.md`
 - `../../../method/orchestrator-run.md`
 - `../../../method/role-composition.md`
+- `../../../method/lifecycle.md`
+
+Analyst owns business analysis and the system-analysis evidence (current behavior,
+system flows, sources in `task_spec`). Technical-shape interpretation of that evidence
+is architect-owned. See `../../../method/lifecycle.md` for the full lifecycle stage map.

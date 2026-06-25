@@ -91,6 +91,10 @@ Record tradeoffs in `alternatives_considered`, `quality_attributes`, and
 
 ## ADR Gate
 
+The canonical ADR-vs-technical-design policy is defined in
+`../../../method/lifecycle.md` "ADR vs Technical Design Policy". The criteria below
+identify when an ADR candidate is required.
+
 Return an ADR candidate when a decision is hard to reverse, cross-cutting, or
 likely to guide future work.
 
@@ -248,6 +252,7 @@ from current sources.
 - `../../../templates/artifacts/implementation-brief.md`
 - `../../../method/orchestrator-run.md`
 - `../../../method/role-composition.md`
+- `../../../method/lifecycle.md`
 - `../../../references/architecture/README.md`
 - `../../../references/quality/minimal-sufficient-code.md`
 - `../../../references/quality/verification.md`

@@ -230,7 +230,11 @@ decision, return `needs_human`.
 
 - `../../../method/escalation.md`
 - `../../../method/execution-policy.md`
+- `../../../method/typed-contracts.md`
 - `../../../templates/artifacts/verification-result.md`
 - `../../../references/quality/verification.md`
 - `../../../references/quality/static-analysis.md`
 - `../../../references/quality/pr-feedback-loop.md`
+
+Watcher feedback is a typed result per `../../../method/typed-contracts.md`; waiting and
+gate semantics (`waiting` → `human_gate`) map to the typed contracts vocabulary.

@@ -31,6 +31,10 @@ this repository:
 - escalation marker semantics are defined by `escalation.md`;
 - execution policy is defined by `execution-policy.md`;
 - usage accounting is defined by `usage-accounting.md`;
+- the delivery lifecycle stages, variants, ADR-vs-technical-design policy, and
+  pre-developer consistency check are defined by `lifecycle.md`;
+- typed result/gate/artifact contracts suitable for Revo validation are defined by
+  `typed-contracts.md`;
 - the orchestrator run lifecycle is defined by `orchestrator-run.md`;
 - manual execution and consuming-repo setup are defined by `manual-run.md` and
   `bootstrap.md`;

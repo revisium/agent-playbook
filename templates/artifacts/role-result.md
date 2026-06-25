@@ -30,6 +30,5 @@ role_result:
   Revo wraps the result with those fields per `../../method/usage-accounting.md`.
 - Each entry in `artifacts` is an `artifact_ref`; see
   `../../templates/artifacts/artifact-ref.md`.
-- `needsHuman: true` is appropriate when `verdict` is `needs_human` or `adr-approval`
-  is pending.
+- `needsHuman: true` when the role verdict is `needs_human`. Gate state such as a pending `adr-approval` is tracked in `run_state.gates` via the `human_gate` contract, not in the role result.
 - `lesson` is one line; store it for future playbook improvement, not for the current run.

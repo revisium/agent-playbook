@@ -94,7 +94,7 @@ When a runtime (such as Revo) receives a route plan:
 2. The human gate of `type: route-approval` (see Human Gate above) captures the approval.
 3. Before execution, the runtime validates:
    - the `route_plan` is well-formed per `route-plan.md`;
-   - the `human_gate.status` is `approved` or `cleared`;
+   - the `human_gate` is well-formed and validates against the Human Gate schema (this file) and policy owner `route-approval.md`; for `type: route-approval`, `status` must be `approved` — `cleared` does not satisfy route approval (`cleared` applies only to `clarification` gates);
    - no blocking clarification markers remain (see `escalation.md`);
    - required runner implementations are present.
 4. If validation fails, the route stops per `escalation.md` stop actions.

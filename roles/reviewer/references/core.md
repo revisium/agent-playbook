@@ -211,9 +211,13 @@ unverified provider access, or residual risk.
 
 - `../../../method/escalation.md`
 - `../../../method/execution-policy.md`
+- `../../../method/typed-contracts.md`
 - `../../../references/quality/readable-code.md`
 - `../../../references/quality/minimal-sufficient-code.md`
 - `../../../references/quality/idiomatic-code.md`
 - `../../../references/quality/verification.md`
 - `../../../references/quality/static-analysis.md`
 - `../../../references/quality/pr-feedback-loop.md`
+
+Reviewer findings and the review result are typed contracts per
+`../../../method/typed-contracts.md`.

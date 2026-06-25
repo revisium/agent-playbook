@@ -214,6 +214,8 @@ state instead of guessing or widening scope.
 - `../../../templates/artifacts/implementation-brief.md`
 - `../../../templates/artifacts/verification-plan.md`
 - `../../../templates/artifacts/verification-result.md`
+- `../../../method/lifecycle.md`
+- `../../../method/typed-contracts.md`
 - `../../../references/quality/readable-code.md`
 - `../../../references/quality/minimal-sufficient-code.md`
 - `../../../references/quality/idiomatic-code.md`
@@ -223,3 +225,7 @@ state instead of guessing or widening scope.
 - `../../../checklists/requirements.md`
 - `../../../method/orchestrator-run.md`
 - `../../../method/role-composition.md`
+
+Developer consumes the typed `implementation_brief` and emits the typed role result per
+`../../../method/typed-contracts.md`. Proceed only when the Pre-Developer Consistency
+Check in `../../../method/lifecycle.md` is clear.

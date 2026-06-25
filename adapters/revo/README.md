@@ -232,6 +232,47 @@ unsupported, a selected runner implementation is missing, an execution-profile
 override target is missing, or a blocking clarification marker remains, the
 route must stop instead of degrading silently.
 
+## Route Decision And Readiness
+
+### Route Option Presentation
+
+When Revo receives a user request, the orchestrator presents route options using
+the block defined in `../../method/orchestrator-run.md` "Proposed Route Review".
+The human reviews the options and responds using the vocabulary in
+`../../method/route-approval.md` "Human Choices". The approval is captured as a
+`human_gate` of `type: route-approval` per `../../method/typed-contracts.md`.
+
+### Pre-Execution Validation
+
+Before starting pipeline execution, Revo must validate:
+
+1. The `route_plan` is well-formed per `../../method/route-plan.md`.
+2. The `human_gate` for route approval has `status: approved` or `status: cleared`.
+3. No blocking clarification markers remain per `../../method/escalation.md`.
+4. Required runner implementations are present and resolved.
+
+If any validation step fails, the route stops with the matching stop action from
+`../../method/escalation.md` instead of degrading silently.
+
+### Pre-Developer Readiness Gate
+
+Before the developer node executes, Revo verifies the Pre-Developer Consistency Check
+defined in `../../method/lifecycle.md`. All items must be clear before implementation
+begins. If any item is unresolved, route to the matching owner from
+`../../method/escalation.md`.
+
+### Typed Contracts
+
+The typed shapes for role results, human gates, and artifact references are defined in
+`../../method/typed-contracts.md`. Fillable templates:
+
+- `../../templates/artifacts/role-result.md` — role / node result envelope.
+- `../../templates/artifacts/human-gate.md` — single gate entry in `run_state.gates`.
+- `../../templates/artifacts/artifact-ref.md` — artifact reference (generalizes `*_ref`
+  fields and `run_state.artifacts` entries).
+
+Route proposal artifacts use `../../templates/artifacts/route-plan.md`.
+
 ## Usage Accounting
 
 Roles emit portable results without cost fields. revo owns attempt ids, token

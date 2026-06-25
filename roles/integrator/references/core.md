@@ -181,6 +181,10 @@ resolution requires permission or policy approval, return `needs_human`.
 
 - `../../../method/escalation.md`
 - `../../../method/env-boundary.md`
+- `../../../method/typed-contracts.md`
 - `../../../templates/artifacts/verification-result.md`
 - `../../../references/quality/verification.md`
 - `../../../references/quality/pr-feedback-loop.md`
+
+Integrator emits the typed role result per `../../../method/typed-contracts.md`, and the
+merge step is a `human_gate` of `type: merge`.

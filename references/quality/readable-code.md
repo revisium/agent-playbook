@@ -26,11 +26,21 @@ Related quality lenses:
   framework integration, and generic utilities.
 - [DECISION] New or changed code that mixes abstraction levels is a review
   blocker when it makes behavior harder to verify, test, or safely change.
+- [DECISION] The one-abstraction-level rule above covers presentation strings:
+  do not build operator-facing or user-facing copy or presentation strings inline
+  inside a domain-decision branch. Extract the presentation layer so the
+  domain decision and the message it produces are not tangled in one block.
 - [DECISION] Prefer small named operations over large comments. A name should
   explain what business step or technical step is happening.
 - [DECISION] Comments are allowed for complex system constraints, protocol
   details, compatibility decisions, concurrency/lifecycle hazards, or surprising
   invariants. Avoid comments that restate obvious business code.
+- [DECISION] A comment must be understandable to a reader who has only this
+  repository. It may cite an artifact only when that artifact resolves in-repo:
+  an in-repo spec, ADR, or doc, or a section of the same file. Do not anchor a
+  comment's meaning to a transient or cross-repo planning artifact such as a
+  plan, slice, ticket, or section id, or a doc in another repo. Inline the
+  invariant or cite a stable in-repo reference instead.
 - [DECISION] Apply SOLID pragmatically. SRP and ISP are expected by default.
   DIP and OCP are useful only when a real boundary, runtime variation, or test
   seam already exists or is part of the approved design.
@@ -57,6 +67,11 @@ Raise a finding when new or modified code:
 - introduces a broad abstraction with one current use and no approved boundary;
 - relies on comments to explain ordinary business behavior that should be
   visible through names, types, tests, or decomposition;
+- anchors an explanatory comment to an unresolvable artifact pointer such as a
+  plan, slice, ticket, or section id, or a cross-repo doc, instead of an in-repo
+  reference or an inlined invariant;
+- builds operator-facing or user-facing copy or presentation strings inline
+  inside a domain-decision branch instead of extracting the presentation layer;
 - converts a recoverable domain/data condition into an unrelated runtime crash;
 - makes tests verify implementation mechanics while the behavior contract stays
   untested.
@@ -73,6 +88,11 @@ Before handing off code, scan each changed unit:
 
 If the answer is no and the code is not a tiny local adapter, split the code or
 return `needs_architect` when the boundary is not obvious.
+
+When the same level-mix recurs across many units in one area, treat it as a
+missing boundary or layer rather than many isolated defects. Return
+`needs_architect` to introduce the boundary once, instead of filing N separate
+local fixes that re-create the same mix.
 
 ## System Code Versus Business Code
 

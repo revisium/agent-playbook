@@ -27,6 +27,8 @@ These templates are fillable copies of canonical run artifacts.
 - `human-gate.md` - single human gate entry in `run_state.gates` (typed contract).
 - `artifact-ref.md` - artifact reference; generalizes `*_ref` fields and
   `run_state.artifacts` entries (typed contract).
+- `debt-ledger.md` - auditor-owned retrospective tech-debt and conformance
+  ledger.
 
 ## Canonical Sources
 
@@ -41,6 +43,7 @@ The templates mirror schemas from these source files:
 - `../../roles/analyst/references/core.md`;
 - `../../checklists/requirements.md`;
 - `../../roles/architect/references/core.md`;
+- `../../roles/auditor/references/core.md`;
 - `../../roles/developer/references/core.md`;
 - `../../roles/deploy-watcher/references/core.md`;
 - `../../roles/qa-backend/references/core.md`;

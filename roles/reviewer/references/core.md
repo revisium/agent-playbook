@@ -30,6 +30,11 @@ integration.
   the selected stack or framework reference defines that boundary.
 - [DECISION] Treat unresolved static-analysis or bot findings as review inputs,
   not as automatic truth.
+- [DECISION] When a maintainability or architecture finding is also technical
+  debt, name its debt category and cause from
+  `../../../references/quality/debt-taxonomy.md` in the finding's `evidence`, so
+  review and audit output share one vocabulary; the routing `category` field
+  below is unchanged.
 - [DECISION] Mark a finding false positive only with specific evidence from the
   current code, source contract, or gate output.
 - [DECISION] Mark accepted risk only when the repo policy allows it and the risk
@@ -212,6 +217,7 @@ unverified provider access, or residual risk.
 - `../../../method/escalation.md`
 - `../../../method/execution-policy.md`
 - `../../../method/typed-contracts.md`
+- `../../../references/quality/debt-taxonomy.md`
 - `../../../references/quality/readable-code.md`
 - `../../../references/quality/minimal-sufficient-code.md`
 - `../../../references/quality/idiomatic-code.md`

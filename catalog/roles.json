@@ -24,6 +24,18 @@
     }
   },
   {
+    "id": "auditor",
+    "path": "roles/auditor/ROLE.md",
+    "surface": "any",
+    "rights": "read-only",
+    "default_model_level": "deep",
+    "runner_id": "claude-code",
+    "wrappers": {
+      "codex": "adapters/codex/materialized/agents/auditor.toml",
+      "claude_code": "adapters/claude-code/materialized/agents/auditor.md"
+    }
+  },
+  {
     "id": "deploy-watcher",
     "path": "roles/deploy-watcher/ROLE.md",
     "surface": "deployment",

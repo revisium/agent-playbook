@@ -79,6 +79,13 @@ catalog.
 - capabilities: adversarial review, risk finding, gate review
 - rights: read-only
 
+### `auditor`
+
+- path: `roles/auditor/ROLE.md`
+- surface: any
+- capabilities: tech-debt audit, conformance grading, debt ledger
+- rights: read-only
+
 ### `integrator`
 
 - path: `roles/integrator/ROLE.md`

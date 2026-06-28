@@ -350,5 +350,54 @@
         "Default iteration cap: 1 QA/follow-up classification loop before route back to bugfix or feature-development."
       ]
     }
+  },
+  {
+    "id": "quality-audit",
+    "path": "pipelines/quality-audit/PIPELINE.md",
+    "triggers": [
+      "tech-debt audit",
+      "conformance check of a repo or merged PRs",
+      "debt ledger / quality grade"
+    ],
+    "required_roles": [
+      "orchestrator",
+      "auditor"
+    ],
+    "alternative_roles": [],
+    "optional_roles": [
+      "reviewer",
+      "architect"
+    ],
+    "route_gates": [
+      "promoting findings into remediation runs",
+      "converting analysis into edits"
+    ],
+    "platform_invocation": "canonical-only",
+    "execution_policy": {
+      "recommended_model_levels": {
+        "auditor": "deep",
+        "reviewer": "standard",
+        "architect": "deep"
+      },
+      "consensus_defaults": [
+        {
+          "scope": "default",
+          "value": "none"
+        }
+      ],
+      "consensus_escalations": [
+        {
+          "value": "single-reviewer",
+          "when": "a finding asserts an architecture-boundary defect, an accepted risk, or a contested false positive"
+        }
+      ],
+      "iteration_cap": "1 audit/adjudication loop for the ledger",
+      "raw": [
+        "Recommended model levels: auditor `deep`; reviewer `standard` when selected; architect `deep` when selected.",
+        "Default consensus: `none`.",
+        "Escalate to `single-reviewer` when a finding asserts an architecture-boundary defect, an accepted risk, or a contested false positive.",
+        "Default iteration cap: 1 audit/adjudication loop for the ledger."
+      ]
+    }
   }
 ]

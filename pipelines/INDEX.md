@@ -70,6 +70,18 @@ Each record defines:
   proposals into hard rules
 - platform_invocation: `canonical-only`
 
+### `quality-audit`
+
+- path: `pipelines/quality-audit/PIPELINE.md`
+- triggers: tech-debt audit, conformance check of a repo or merged PRs,
+  debt ledger / quality grade
+- required_roles: `orchestrator`, `auditor`
+- alternative_roles: []
+- optional_roles: `reviewer`, `architect`
+- route_gates: promoting findings into remediation runs, converting
+  analysis into edits
+- platform_invocation: `canonical-only`
+
 ### `post-merge-qa`
 
 - path: `pipelines/post-merge-qa/PIPELINE.md`
@@ -104,6 +116,8 @@ Every multi-role pipeline uses the startup and route approval contract in
 
 - `analysis-only` is the default when the user asks only for research, review,
   planning, or explanation.
+- `quality-audit` is the default when the user asks to grade existing tech debt
+  or check conformance of a repo or merged PRs without editing code.
 - `method-development` is the default when the request changes this method repo
   or adds missing agent capability.
 - Optional roles can be dropped only when the reduced coverage is visible in the

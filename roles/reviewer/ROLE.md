@@ -73,6 +73,7 @@ Deep.
 - `references/core.md`
 - `../../method/escalation.md`
 - `../../method/execution-policy.md`
+- `../../references/quality/debt-taxonomy.md`
 - `../../references/quality/readable-code.md`
 - `../../references/quality/minimal-sufficient-code.md`
 - `../../references/quality/idiomatic-code.md`

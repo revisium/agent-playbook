@@ -20,6 +20,9 @@ Quality references help agents decide whether a proposed change is safe enough.
   reuse order, and anti-bloat review rules.
 - `idiomatic-code.md` - stack-native, locally consistent code form without
   subjective style fights.
+- `debt-taxonomy.md` - shared technical-debt classification vocabulary: landscape
+  categories and the deliberate/inadvertent cause quadrant. Core for `auditor`
+  and available to `reviewer`.
 - `verification.md` - generic verification planning and result contract.
 - `static-analysis.md` - provider-backed findings, local/hosted modes, and
   issue-level triage rules.
@@ -29,6 +32,7 @@ Quality references help agents decide whether a proposed change is safe enough.
 ## Used By
 
 - `reviewer` as primary owner;
+- `auditor` when grading existing tech debt and conformance to these references;
 - `architect` when quality attributes drive design;
 - `developer` when implementing readable code, selecting tests, and running local
   verification;

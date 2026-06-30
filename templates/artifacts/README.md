@@ -18,6 +18,10 @@ These templates are fillable copies of canonical run artifacts.
 - `task-spec.md` - analyst-owned requirements artifact.
 - `requirements-check.md` - readiness gate for `task_spec`.
 - `architecture-plan.md` - architect-owned technical-shape artifact.
+- `adr.md` - architect-owned architecture decision record; one decision, why not
+  how, mirrors `../../references/quality/adr-authoring.md`.
+- `spec.md` - architect-owned specification; normative contract with RFC 2119
+  keywords, mirrors `../../references/quality/spec-authoring.md`.
 - `implementation-brief.md` - compact developer handoff.
 - `verification-plan.md` - generic local, conditional, optional, and remote gate
   plan.

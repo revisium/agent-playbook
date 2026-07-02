@@ -25,8 +25,8 @@ and delete the HTML-comment guidance before handing off.
 ## Context
 
 <!-- State the forces, constraints, and pressures neutrally. Describe the
-     situation that makes a decision necessary. Do NOT state the decision here,
-     and do NOT include paths, field names, enums, schemas, or inline code. -->
+     situation that makes a decision necessary. Do not state the decision here,
+     and do not include paths, field names, enums, schemas, or inline code. -->
 
 ## Decision
 
@@ -47,7 +47,8 @@ and delete the HTML-comment guidance before handing off.
 
 <!-- Two-directional. Name at least one accepted downside or trade-off and any
      follow-up work, not only the guardrails or benefits the decision creates.
-     Keep definition-of-done, acceptance criteria, and test plans OUT of here. -->
+     Keep definition-of-done, acceptance criteria, and test plans out of the
+     ADR. -->
 
 - Positive: <what improves>
 - Trade-off: <accepted downside>

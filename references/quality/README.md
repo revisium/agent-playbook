@@ -10,7 +10,8 @@ Quality references help agents decide whether a proposed change is safe enough.
 - residual risk reporting;
 - non-functional quality checks;
 - readable code and maintainability boundaries;
-- minimal sufficient code and idiomatic code form.
+- minimal sufficient code and idiomatic code form;
+- ADR and specification authoring.
 
 ## Core References
 
@@ -40,7 +41,8 @@ Quality references help agents decide whether a proposed change is safe enough.
 
 - `reviewer` as primary owner;
 - `auditor` when grading existing tech debt and conformance to these references;
-- `architect` when quality attributes drive design;
+- `architect` when quality attributes drive design and when authoring ADRs and
+  specs;
 - `developer` when implementing readable code, selecting tests, and running local
   verification;
 - `watcher` when classifying CI, static-analysis, and review outcomes;

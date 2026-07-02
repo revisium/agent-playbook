@@ -34,9 +34,9 @@ is a synonym of MUST and OPTIONAL a synonym of MAY.
 
 <!-- Normative. Present tense for behavior that exists today. One atomic rule
      per statement and per table cell. Use the keywords sparingly, only where
-     correctness, contract, or interop truly requires them. No ALL CAPS for
-     emphasis, no weasel words ("generally", "as needed", "best-effort") inside
-     a normative statement. -->
+     correctness, contract, or interoperability truly requires them. No ALL
+     CAPS for emphasis, no weasel words ("generally", "as needed",
+     "best-effort") inside a normative statement. -->
 
 ## Target Migration
 

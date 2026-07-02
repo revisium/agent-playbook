@@ -238,7 +238,6 @@ orchestrator_run:
     - needs_analyst
     - needs_architect
     - needs_human
-    - ask-human
     - method-development
     - stop
 ```

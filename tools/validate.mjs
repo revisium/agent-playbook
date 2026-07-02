@@ -50,6 +50,12 @@ const allowedRoleRights = new Set([
   "deterministic-script",
 ]);
 const allowedModelLevels = new Set(["cheap", "standard", "deep"]);
+const allowedConsensusModes = new Set([
+  "none",
+  "single-reviewer",
+  "dual-model",
+  "adversarial-consensus",
+]);
 const allowedRunnerIds = new Set([
   "claude-code",
   "codex",
@@ -376,27 +382,6 @@ function knownRoleIds() {
   return new Set(parseCatalogRecords(join(root, "roles/INDEX.md")).keys());
 }
 
-function parseRecommendedModelLevels(value) {
-  const knownRoles = knownRoleIds();
-  const levels = {};
-  for (const match of value.matchAll(
-    /\b([a-z][a-z-]*)\s+`(cheap|standard|deep)`/g,
-  )) {
-    if (knownRoles.has(match[1])) {
-      levels[match[1]] = match[2];
-    }
-  }
-
-  const groupedDeployQa = value.match(/deploy and QA roles `([^`]+)`/);
-  if (groupedDeployQa) {
-    levels["deploy-watcher"] = groupedDeployQa[1];
-    levels["qa-backend"] = groupedDeployQa[1];
-    levels["qa-frontend"] = groupedDeployQa[1];
-  }
-
-  return levels;
-}
-
 function markdownBullets(text) {
   const bullets = [];
   let current = null;
@@ -418,68 +403,178 @@ function markdownBullets(text) {
   return bullets;
 }
 
+function stripYamlComment(line) {
+  const hashIndex = line.indexOf(" #");
+  return hashIndex === -1 ? line : line.slice(0, hashIndex);
+}
+
+function parseYamlScalar(value) {
+  const trimmed = stripYamlComment(value).trim();
+  const quoted =
+    (trimmed.startsWith('"') && trimmed.endsWith('"')) ||
+    (trimmed.startsWith("'") && trimmed.endsWith("'"));
+  return quoted ? trimmed.slice(1, -1) : trimmed;
+}
+
+function normalizeYamlBlock(block) {
+  return block
+    .split(/\r?\n/)
+    .map((line) => stripYamlComment(line).trimEnd())
+    .filter((line) => line.trim())
+    .join("\n");
+}
+
 function extractExecutionPolicy(path) {
+  const block = extractYamlBlockAfterHeading(path, "## Execution Policy");
   const bullets = markdownBullets(sectionText(path, "Execution Policy"));
 
   const policy = {
     recommended_model_levels: {},
+    model_level_rules: [],
     consensus_defaults: [],
     consensus_escalations: [],
     iteration_cap: "",
     raw: bullets,
   };
 
-  for (const bullet of bullets) {
-    const recommended = bullet.match(/^Recommended model levels:\s*(.+)$/);
-    if (recommended) {
-      policy.recommended_model_levels = parseRecommendedModelLevels(
-        recommended[1],
-      );
+  if (block === null) {
+    return policy;
+  }
+
+  const lines = block.split(/\r?\n/);
+  if (lines[0] !== "execution_policy:") {
+    fail(path, "Execution Policy YAML block must start with `execution_policy:`");
+    return policy;
+  }
+
+  const knownRoles = knownRoleIds();
+  let section = null;
+  let currentListItem = null;
+
+  function pushListItem() {
+    if (!currentListItem) {
+      return;
+    }
+    if (section === "model_level_rules") {
+      for (const key of ["role", "level", "when"]) {
+        if (!currentListItem[key]) {
+          fail(path, `model_level_rules item missing \`${key}\``);
+        }
+      }
+      if (currentListItem.role && !knownRoles.has(currentListItem.role)) {
+        fail(path, `model_level_rules references unknown role \`${currentListItem.role}\``);
+      }
+      if (currentListItem.level && !allowedModelLevels.has(currentListItem.level)) {
+        fail(path, `model_level_rules level has invalid value \`${currentListItem.level}\``);
+      }
+      policy.model_level_rules.push(currentListItem);
+    } else if (section === "consensus_defaults") {
+      for (const key of ["scope", "value"]) {
+        if (!currentListItem[key]) {
+          fail(path, `consensus_defaults item missing \`${key}\``);
+        }
+      }
+      if (
+        currentListItem.value &&
+        !allowedConsensusModes.has(currentListItem.value)
+      ) {
+        fail(path, `consensus_defaults value has invalid value \`${currentListItem.value}\``);
+      }
+      policy.consensus_defaults.push(currentListItem);
+    } else if (section === "consensus_escalations") {
+      for (const key of ["value", "when"]) {
+        if (!currentListItem[key]) {
+          fail(path, `consensus_escalations item missing \`${key}\``);
+        }
+      }
+      if (
+        currentListItem.value &&
+        !allowedConsensusModes.has(currentListItem.value)
+      ) {
+        fail(path, `consensus_escalations value has invalid value \`${currentListItem.value}\``);
+      }
+      if (currentListItem.when) {
+        currentListItem.when = trimSentence(currentListItem.when);
+      }
+      policy.consensus_escalations.push(currentListItem);
+    }
+    currentListItem = null;
+  }
+
+  for (let index = 1; index < lines.length; index += 1) {
+    const line = lines[index];
+    if (!line.trim()) {
       continue;
     }
 
-    const scopedConsensus = bullet.match(
-      /^Default (.+?) consensus:\s*`([^`]+)`/,
-    );
-    if (scopedConsensus) {
-      policy.consensus_defaults.push({
-        scope: scopedConsensus[1],
-        value: scopedConsensus[2],
-      });
+    const topLevel = line.match(/^  ([a-z_]+):(?:\s*(.*))?$/);
+    if (topLevel) {
+      pushListItem();
+      section = topLevel[1];
+      const value = parseYamlScalar(topLevel[2] ?? "");
+      if (section === "iteration_cap") {
+        policy.iteration_cap = value;
+        section = null;
+      } else if (
+        ![
+          "recommended_model_levels",
+          "model_level_rules",
+          "consensus_defaults",
+          "consensus_escalations",
+        ].includes(section)
+      ) {
+        fail(path, `Execution Policy has unknown key \`${section}\``, index + 1);
+      } else if (value) {
+        fail(path, `Execution Policy key \`${section}\` must use nested values`, index + 1);
+      }
       continue;
     }
 
-    const defaultConsensus = bullet.match(/^Default consensus:\s*`([^`]+)`/);
-    if (defaultConsensus) {
-      policy.consensus_defaults.push({
-        scope: "default",
-        value: defaultConsensus[1],
-      });
+    if (section === "recommended_model_levels") {
+      const entry = line.match(/^    ([a-z][a-z-]*):\s*(cheap|standard|deep)\s*$/);
+      if (!entry) {
+        fail(path, "recommended_model_levels entries must be `role: level`", index + 1);
+        continue;
+      }
+      if (!knownRoles.has(entry[1])) {
+        fail(path, `recommended_model_levels references unknown role \`${entry[1]}\``, index + 1);
+        continue;
+      }
+      policy.recommended_model_levels[entry[1]] = entry[2];
       continue;
     }
 
-    const escalation = bullet.match(/^Escalate to `([^`]+)` when (.+)$/);
-    if (escalation) {
-      policy.consensus_escalations.push({
-        value: escalation[1],
-        when: trimSentence(escalation[2]),
-      });
-      continue;
+    if (
+      ["model_level_rules", "consensus_defaults", "consensus_escalations"].includes(
+        section ?? "",
+      )
+    ) {
+      const itemStart = line.match(/^    - ([a-z_]+):\s*(.*)$/);
+      if (itemStart) {
+        pushListItem();
+        currentListItem = {
+          [itemStart[1]]: parseYamlScalar(itemStart[2]),
+        };
+        continue;
+      }
+
+      const itemField = line.match(/^      ([a-z_]+):\s*(.*)$/);
+      if (itemField && currentListItem) {
+        currentListItem[itemField[1]] = parseYamlScalar(itemField[2]);
+        continue;
+      }
     }
 
-    const useConsensus = bullet.match(/^Use `([^`]+)` when (.+)$/);
-    if (useConsensus) {
-      policy.consensus_escalations.push({
-        value: useConsensus[1],
-        when: trimSentence(useConsensus[2]),
-      });
-      continue;
-    }
+    fail(path, "unrecognized Execution Policy YAML line", index + 1);
+  }
 
-    const iterationCap = bullet.match(/^Default iteration cap:\s*(.+)$/);
-    if (iterationCap) {
-      policy.iteration_cap = trimSentence(iterationCap[1]);
-    }
+  pushListItem();
+
+  if (Object.keys(policy.recommended_model_levels).length === 0) {
+    fail(path, "Execution Policy must define recommended_model_levels");
+  }
+  if (!policy.iteration_cap) {
+    fail(path, "Execution Policy must define iteration_cap");
   }
 
   return policy;
@@ -978,6 +1073,124 @@ function validatePipelineSections() {
   }
 }
 
+function validateRoleDefinitionOutputContract() {
+  const path = join(root, "method/role-definition.md");
+  const section = sectionText(path, "Output Contract");
+  if (!section.includes("typed-contracts.md")) {
+    fail(path, "`Output Contract` must delegate role_result schema to `typed-contracts.md`");
+  }
+  if (
+    section.includes("```json") ||
+    section.includes('"artifacts": {}') ||
+    section.includes('"needsHuman": false')
+  ) {
+    fail(path, "`Output Contract` must not duplicate the portable role_result schema");
+  }
+}
+
+function validateCommonGitignoreCoversLocalOverlays() {
+  const path = join(root, "templates/common/gitignore");
+  const entries = new Set(read(path).split(/\r?\n/).filter(Boolean));
+  for (const entry of [
+    ".agents/local.*",
+    ".agents/runs/",
+    ".claude/settings.local.json",
+    "CLAUDE.local.md",
+  ]) {
+    if (!entries.has(entry)) {
+      fail(path, `missing ignored local overlay pattern \`${entry}\``);
+    }
+  }
+}
+
+function validateReadmeCatalogCoverage() {
+  const roleIds = [...parseCatalogRecords(join(root, "roles/INDEX.md")).keys()];
+  const roleReadme = read(join(root, "roles/README.md"));
+  for (const roleId of roleIds) {
+    if (!roleReadme.includes(`\`${roleId}\``)) {
+      fail(join(root, "roles/README.md"), `missing role \`${roleId}\` from README overview`);
+    }
+  }
+
+  const pipelineIds = [
+    ...parseCatalogRecords(join(root, "pipelines/INDEX.md")).keys(),
+  ];
+  const pipelineReadme = read(join(root, "pipelines/README.md"));
+  for (const pipelineId of pipelineIds) {
+    if (!pipelineReadme.includes(`\`${pipelineId}\``)) {
+      fail(
+        join(root, "pipelines/README.md"),
+        `missing pipeline \`${pipelineId}\` from README overview`,
+      );
+    }
+  }
+}
+
+function validateIntakeWorkTypesCoverPipelines() {
+  const path = join(root, "method/intake.md");
+  const workTypes = new Set(
+    [...sectionText(path, "Work Types").matchAll(/^- `([^`]+)`/gm)].map(
+      (match) => match[1],
+    ),
+  );
+  for (const pipelineId of parseCatalogRecords(join(root, "pipelines/INDEX.md")).keys()) {
+    if (!workTypes.has(pipelineId)) {
+      fail(path, `Work Types is missing pipeline \`${pipelineId}\``);
+    }
+  }
+}
+
+function validateOrchestratorTieBreakersCoverPipelines() {
+  const path = join(root, "roles/orchestrator/references/core.md");
+  const section = sectionText(path, "Route Selection Tie-Breakers");
+  for (const pipelineId of parseCatalogRecords(join(root, "pipelines/INDEX.md")).keys()) {
+    if (!section.includes(`\`${pipelineId}\``)) {
+      fail(path, `Route Selection Tie-Breakers is missing pipeline \`${pipelineId}\``);
+    }
+  }
+}
+
+function extractRoleIdsFromPipelineRolesSection(path) {
+  const knownRoles = knownRoleIds();
+  return new Set(
+    [...sectionText(path, "Roles").matchAll(/`([^`]+)`/g)]
+      .map((match) => match[1])
+      .filter((roleId) => knownRoles.has(roleId)),
+  );
+}
+
+function validatePipelineIndexRoleCoverage() {
+  const catalogPath = join(root, "pipelines/INDEX.md");
+  for (const [pipelineId, fields] of parseCatalogRecords(catalogPath)) {
+    const pipelinePath = join(root, normalizeCatalogValue(fields.path ?? ""));
+    if (!exists(pipelinePath)) {
+      continue;
+    }
+
+    const indexedRoles = new Set([
+      ...parseInlineList(fields.required_roles),
+      ...parseInlineList(fields.optional_roles),
+      ...parseAlternativeRoles(fields.alternative_roles).flatMap(
+        (group) => group.roles,
+      ),
+    ]);
+    const proseRoles = extractRoleIdsFromPipelineRolesSection(pipelinePath);
+    for (const roleId of indexedRoles) {
+      if (!proseRoles.has(roleId)) {
+        fail(pipelinePath, `Roles section is missing catalog role \`${roleId}\``);
+      }
+    }
+    for (const roleId of proseRoles) {
+      if (!indexedRoles.has(roleId)) {
+        fail(
+          catalogPath,
+          `pipeline \`${pipelineId}\` catalog omits role \`${roleId}\` from Roles section`,
+        );
+      }
+    }
+  }
+}
+
 function validateHeadings(path, required) {
   const headings = new Set(
     read(path)
@@ -1057,6 +1270,93 @@ function extractFirstYamlBlock(path) {
   return lines.slice(openIndex + 1, closeIndex).join("\n");
 }
 
+function validateBacktickPathReferences() {
+  const roots = [
+    "README.md",
+    "AGENTS.md",
+    "CLAUDE.md",
+    "method",
+    "roles",
+    "pipelines",
+    "references",
+    "stacks",
+    "adapters",
+    "templates",
+    "checklists",
+  ];
+  const files = filesUnder(roots, (entry) => extname(entry) === ".md");
+  const pathLike = /`([^`\n]+\.md(?:#[^`\s]+)?)`/g;
+  const repoLocalOverlayDocs = new Set([
+    "AGENTS.md",
+    "CLAUDE.md",
+    "REPOSITORY.md",
+    "REVIEW.md",
+    "VERIFICATION.md",
+  ]);
+  const consumerRepoExampleDocs = new Set(["docs/quality-gates.md"]);
+  const runtimeDiscoveryPrefixes = [".agents/", ".codex/", ".claude/"];
+  const bareTemplateDocs = new Set([
+    "ROLE.md",
+    "PIPELINE.md",
+    "STACK.md",
+    "SKILL.md",
+    "RUN.md",
+    "STATUS.md",
+  ]);
+  const genericReferenceExampleOwners = new Set([
+    "method/role-definition.md",
+    "references/quality/debt-taxonomy.md",
+    "checklists/role-development.md",
+  ]);
+  const genericReferenceExampleDocs = new Set([
+    "references/core.md",
+    "references/review-checklist.md",
+  ]);
+
+  for (const path of files) {
+    const text = read(path);
+    for (const match of text.matchAll(pathLike)) {
+      const destination = parseMarkdownDestination(match[1]);
+      const sourcePath = rel(path);
+      if (
+        !destination ||
+        destination.startsWith("@") ||
+        destination.includes("*") ||
+        destination.includes("{{") ||
+        destination.includes("<") ||
+        destination.startsWith(".agents/local.") ||
+        runtimeDiscoveryPrefixes.some((prefix) => destination.startsWith(prefix)) ||
+        repoLocalOverlayDocs.has(destination) ||
+        consumerRepoExampleDocs.has(destination) ||
+        (
+          genericReferenceExampleOwners.has(sourcePath) &&
+          genericReferenceExampleDocs.has(destination)
+        ) ||
+        bareTemplateDocs.has(destination)
+      ) {
+        continue;
+      }
+      if (destination.startsWith("/")) {
+        fail(path, `backtick path must be relative: \`${destination}\``);
+        continue;
+      }
+      const localDestination = stripFragmentAndQuery(destination);
+      if (!localDestination) {
+        continue;
+      }
+      const relativeTargetPath = join(dirname(path), localDestination);
+      const rootTargetPath = join(root, localDestination);
+      if (!exists(relativeTargetPath) && !exists(rootTargetPath)) {
+        fail(
+          path,
+          `backtick path target does not exist: \`${destination}\``,
+          lineForOffset(text, match.index ?? 0),
+        );
+      }
+    }
+  }
+}
+
 function validateArtifactTemplateOwnerLinks() {
   const dir = join(root, "templates/artifacts");
   const ownerLabels = [
@@ -1102,26 +1402,77 @@ function validateArtifactTemplateOwnerLinks() {
   }
 }
 
-function validateVerificationArtifactSync() {
-  const canonicalPath = join(root, "references/quality/verification.md");
+function validateArtifactSchemaSync() {
   const artifacts = [
     {
+      canonicalPath: join(root, "roles/analyst/references/core.md"),
+      templatePath: join(root, "templates/artifacts/task-spec.md"),
+      heading: "## `task_spec`",
+    },
+    {
+      canonicalPath: join(root, "roles/architect/references/core.md"),
+      templatePath: join(root, "templates/artifacts/architecture-plan.md"),
+      heading: "## `architecture_plan`",
+    },
+    {
+      canonicalPath: join(root, "roles/developer/references/core.md"),
+      templatePath: join(root, "templates/artifacts/implementation-brief.md"),
+      heading: "## `implementation_brief`",
+    },
+    {
+      canonicalPath: join(root, "checklists/requirements.md"),
+      templatePath: join(root, "templates/artifacts/requirements-check.md"),
+      heading: "## Output",
+    },
+    {
+      canonicalPath: join(root, "method/route-plan.md"),
+      templatePath: join(root, "templates/artifacts/route-plan.md"),
+      heading: "## Route Plan Schema",
+    },
+    {
+      canonicalPath: join(root, "method/route-plan.md"),
+      templatePath: join(root, "templates/artifacts/run-state.md"),
+      heading: "## Manual Run State",
+    },
+    {
+      canonicalPath: join(root, "method/typed-contracts.md"),
+      templatePath: join(root, "templates/artifacts/role-result.md"),
+      heading: "## Role / Node Result",
+    },
+    {
+      canonicalPath: join(root, "method/typed-contracts.md"),
+      templatePath: join(root, "templates/artifacts/human-gate.md"),
+      heading: "## Human Gate",
+    },
+    {
+      canonicalPath: join(root, "method/typed-contracts.md"),
+      templatePath: join(root, "templates/artifacts/artifact-ref.md"),
+      heading: "## Artifact Ref",
+    },
+    {
+      canonicalPath: join(root, "roles/auditor/references/core.md"),
+      templatePath: join(root, "templates/artifacts/debt-ledger.md"),
+      heading: "## `debt_ledger`",
+    },
+    {
+      canonicalPath: join(root, "references/quality/verification.md"),
       templatePath: join(root, "templates/artifacts/verification-plan.md"),
       heading: "## `verification_plan`",
     },
     {
+      canonicalPath: join(root, "references/quality/verification.md"),
       templatePath: join(root, "templates/artifacts/verification-result.md"),
       heading: "## `verification_result`",
     },
   ];
 
-  for (const { templatePath, heading } of artifacts) {
+  for (const { canonicalPath, templatePath, heading } of artifacts) {
     const canonicalBlock = extractYamlBlockAfterHeading(canonicalPath, heading);
     const templateBlock = extractFirstYamlBlock(templatePath);
     if (
       canonicalBlock !== null &&
       templateBlock !== null &&
-      canonicalBlock !== templateBlock
+      normalizeYamlBlock(canonicalBlock) !== normalizeYamlBlock(templateBlock)
     ) {
       fail(
         templatePath,
@@ -1291,10 +1642,17 @@ validatePipelineFrontmatter();
 validateModelLevels();
 validateRoleSections();
 validatePipelineSections();
+validateRoleDefinitionOutputContract();
+validateCommonGitignoreCoversLocalOverlays();
+validateReadmeCatalogCoverage();
+validateIntakeWorkTypesCoverPipelines();
+validateOrchestratorTieBreakersCoverPipelines();
+validatePipelineIndexRoleCoverage();
 validateArtifactTemplateOwnerLinks();
-validateVerificationArtifactSync();
+validateArtifactSchemaSync();
 validateAdapterSkillSymmetry();
 validateMarkdownLinks();
+validateBacktickPathReferences();
 validateRuntimeDoesNotLinkLegacy();
 validateEnvironmentBoundary();
 validateGeneratedCatalogs();

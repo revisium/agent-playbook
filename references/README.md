@@ -69,7 +69,8 @@ NestJS.
 
 ## Reuse Rules
 
-- A role may list shared references under `practice_references`.
+- A route plan may select shared practices under `practice_references`; role
+  files list shared practice files in their `References` section.
 - Shared references explain a practice; they do not grant rights.
 - A role decides when the practice is relevant for its current step.
 - If a shared reference changes role behavior, update the role reference too.

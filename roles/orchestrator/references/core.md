@@ -94,6 +94,9 @@ phase order still belongs to `method/orchestrator-run.md`.
   more familiar.
 - Prefer `analysis-only` when the user asks for research, review, explanation,
   planning, or approval material without mutation.
+- Prefer `quality-audit` when the user asks to grade existing technical debt,
+  audit conformance, review already-merged changes, or produce a debt ledger
+  without editing code.
 - Prefer `method-development` when the requested outcome changes roles,
   pipelines, adapters, stack references, artifact schemas, validators, or
   bootstrap behavior.

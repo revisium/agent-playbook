@@ -33,6 +33,28 @@ ledger without editing code.
 
 ## Execution Policy
 
+```yaml
+execution_policy:
+  recommended_model_levels:
+    auditor: deep
+    reviewer: standard
+    architect: deep
+  model_level_rules:
+    - role: reviewer
+      level: standard
+      when: selected
+    - role: architect
+      level: deep
+      when: selected
+  consensus_defaults:
+    - scope: default
+      value: none
+  consensus_escalations:
+    - value: single-reviewer
+      when: a finding asserts an architecture-boundary defect, an accepted risk, or a contested false positive
+  iteration_cap: 1 audit/adjudication loop for the ledger
+```
+
 - Recommended model levels: auditor `deep`; reviewer `standard` when selected;
   architect `deep` when selected.
 - Default consensus: `none`.

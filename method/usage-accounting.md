@@ -5,14 +5,17 @@ roles responsible for billing or provider pricing.
 
 ## Result Boundary
 
-Roles emit only the portable `AgentResult` defined in `role-definition.md`:
+Roles emit only the portable `role_result` envelope defined in
+`typed-contracts.md`:
 
 ```json
 {
-  "output": {},
-  "artifacts": {},
+  "verdict": "continue",
+  "output": "",
+  "artifacts": [],
   "needsHuman": false,
-  "lesson": null
+  "lesson": "",
+  "nextSteps": []
 }
 ```
 

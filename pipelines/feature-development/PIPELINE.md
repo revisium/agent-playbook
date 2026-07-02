@@ -53,6 +53,44 @@ optional `architect`, optional `merger`, optional `deploy-watcher`, optional
 
 ## Execution Policy
 
+```yaml
+execution_policy:
+  recommended_model_levels:
+    analyst: deep
+    architect: deep
+    developer: standard
+    reviewer: deep
+    integrator: standard
+    watcher: cheap
+    deploy-watcher: standard
+    qa-backend: standard
+    qa-frontend: standard
+  model_level_rules:
+    - role: architect
+      level: deep
+      when: selected
+    - role: deploy-watcher
+      level: standard
+      when: selected
+    - role: qa-backend
+      level: standard
+      when: selected
+    - role: qa-frontend
+      level: standard
+      when: selected
+  consensus_defaults:
+    - scope: task-spec review
+      value: dual-model
+    - scope: architecture review
+      value: single-reviewer
+    - scope: code review
+      value: dual-model
+  consensus_escalations:
+    - value: dual-model
+      when: cross-module, data, auth, security, migration, or public API decisions are in scope
+  iteration_cap: 3 developer/reviewer or developer/watcher loops before needs_human
+```
+
 - Recommended model levels: analyst `deep`; architect `deep` when selected;
   developer `standard`; reviewer `deep`; integrator `standard`; watcher
   `cheap`; deploy and QA roles `standard`.

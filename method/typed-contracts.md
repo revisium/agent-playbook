@@ -1,10 +1,9 @@
 # Typed Contracts
 
 This file defines portable typed contracts for role results, human gates, and artifact
-references. These shapes are suitable for future Revo validation. Canonical field owners
-are referenced, not duplicated: route/run schema is owned by `route-plan.md`; escalation
-vocabulary is owned by `escalation.md`; output-contract semantics are owned by
-`role-definition.md`.
+references. These shapes are suitable for future Revo validation. Route/run schema is
+owned by `route-plan.md`; escalation action vocabulary is owned by `escalation.md`;
+role frontmatter and output-section structure are owned by `role-definition.md`.
 
 Fillable templates for these contracts:
 
@@ -14,18 +13,25 @@ Fillable templates for these contracts:
 
 ## Role / Node Result
 
-Canonical schema owner: `role-definition.md` "Output Contract".
-Escalation vocabulary owner: `escalation.md`.
+Canonical schema owner: this file (`typed-contracts.md`).
+Escalation action vocabulary owner: `escalation.md`.
 
 ```yaml
 role_result:
-  verdict: ""          # reuse route/verdict vocab from escalation.md:
+  verdict: ""          # reuse the role-result verdict enum below:
                        # approved | changes_requested | blocker | clean | dirty |
                        # needs_analyst | needs_architect | needs_human |
-                       # needs_developer | needs_reviewer | waiting | continue | stop
+                       # needs_method_materialization | needs_developer |
+                       # needs_reviewer | waiting | continue | stop
   output: ""           # short prose summary for the next consumer
-  artifacts:           # list of artifact_ref (see below)
-    - {}
+  artifacts:
+    - artifact_type: ""
+      slot: ""
+      location: ""
+      owner_role: ""
+      schema_owner: ""
+      status: ""
+      head_sha: ""
   needsHuman: false    # true when the verdict requires human intervention
   lesson: ""           # optional one-line note for future attempts
   nextSteps:           # optional follow-up work items
@@ -34,6 +40,26 @@ role_result:
 
 Revo may wrap this envelope with attempt id, token usage, cost metadata, model name, and
 runtime progress records per `usage-accounting.md`. Roles emit no billing fields.
+
+Allowed `role_result.verdict` values:
+
+- `approved` - reviewer, watcher, QA, or human-facing role accepts the checked
+  artifact or state.
+- `changes_requested` - reviewer, watcher, QA, or human-facing role requires
+  scoped rework by the producing role.
+- `blocker` - the role cannot proceed because required evidence, access, or
+  approval is missing and no narrower method-owned stop action applies.
+- `clean` - inspection found no actionable issue in the inspected scope.
+- `dirty` - inspection found actionable findings in the inspected scope.
+- `needs_analyst`, `needs_architect`, `needs_human`,
+  `needs_method_materialization`, `needs_developer`, `needs_reviewer` - route
+  to the owning role, materialization workflow, or human gate defined in
+  `escalation.md`.
+- `waiting` - an external provider, CI job, deployment, review, or scheduled
+  condition is still progressing.
+- `continue` - the current run can proceed to the next approved step.
+- `stop` - the approved route should not continue and no narrower method-owned
+  stop action applies.
 
 ## Human Gate
 

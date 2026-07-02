@@ -20,6 +20,7 @@ Before changing role behavior, run
 - `developer` - implements scoped changes, fixes actionable findings, and runs
   local verification in a working tree.
 - `reviewer` - adversarial read-only review; one voice in consensus.
+- `auditor` - retrospective technical-debt and conformance assessment.
 - `integrator` - commits, pushes, opens or updates PRs, and publishes approved
   PR-maintenance actions.
 - `watcher` - classifies CI, static-analysis, bot, and human review signals.

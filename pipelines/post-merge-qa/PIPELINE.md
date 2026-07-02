@@ -43,6 +43,27 @@ Verify that merged work deployed and behaves correctly in the target environment
 
 ## Execution Policy
 
+```yaml
+execution_policy:
+  recommended_model_levels:
+    deploy-watcher: cheap
+    watcher: cheap
+    qa-backend: standard
+    qa-frontend: standard
+    developer: standard
+  model_level_rules:
+    - role: developer
+      level: standard
+      when: follow-up fixes are needed
+  consensus_defaults:
+    - scope: default
+      value: none
+  consensus_escalations:
+    - value: single-reviewer
+      when: QA findings require code-risk classification or accepted-risk judgment
+  iteration_cap: 1 QA/follow-up classification loop before route back to bugfix or feature-development
+```
+
 - Recommended model levels: deploy-watcher `cheap`; watcher `cheap`;
   qa-backend `standard`; qa-frontend `standard`; developer `standard` when
   follow-up fixes are needed.

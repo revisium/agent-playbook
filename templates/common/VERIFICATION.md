@@ -6,6 +6,10 @@ It records exact checks for this repository. If this repository already has an
 equivalent document, for example `docs/quality-gates.md`, link to it here and do
 not duplicate the rules.
 
+If a repository prefers a standalone quality-gates document, use
+`{{AGENTS_REPO_PATH}}/templates/common/quality-gates.md` as the fillable shape
+and link that document from here.
+
 ## Status
 
 - Default repo-local contract: yes

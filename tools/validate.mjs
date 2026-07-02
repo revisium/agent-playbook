@@ -404,8 +404,50 @@ function markdownBullets(text) {
 }
 
 function stripYamlComment(line) {
-  const hashIndex = line.indexOf(" #");
-  return hashIndex === -1 ? line : line.slice(0, hashIndex);
+  let quote = null;
+
+  function isEscaped(index) {
+    let backslashes = 0;
+    for (
+      let cursor = index - 1;
+      cursor >= 0 && line[cursor] === "\\";
+      cursor -= 1
+    ) {
+      backslashes += 1;
+    }
+    return backslashes % 2 === 1;
+  }
+
+  for (let index = 0; index < line.length; index += 1) {
+    const char = line[index];
+
+    if (quote === "'") {
+      if (char === "'" && line[index + 1] === "'") {
+        index += 1;
+      } else if (char === "'") {
+        quote = null;
+      }
+      continue;
+    }
+
+    if (quote === '"') {
+      if (char === '"' && !isEscaped(index)) {
+        quote = null;
+      }
+      continue;
+    }
+
+    if (char === "'" || char === '"') {
+      quote = char;
+      continue;
+    }
+
+    if (char === "#" && (index === 0 || /\s/.test(line[index - 1]))) {
+      return line.slice(0, index);
+    }
+  }
+
+  return line;
 }
 
 function parseYamlScalar(value) {

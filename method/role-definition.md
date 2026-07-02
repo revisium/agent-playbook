@@ -102,19 +102,14 @@ Every non-obvious rule should carry one source label:
 
 ## Output Contract
 
-Portable roles return an agent result:
+Portable roles return the `role_result` envelope owned by
+`typed-contracts.md`.
 
-```json
-{
-  "output": {},
-  "artifacts": {},
-  "needsHuman": false,
-  "lesson": null
-}
-```
+Role `Outputs` sections list the artifacts and slots a role produces. They do
+not redefine the portable result schema.
 
-Adapters may wrap this for a platform. For example, revo may add `nextSteps` or
-attempt metadata around the portable result.
+Adapters may wrap `role_result` for a platform by adding attempt metadata,
+runtime progress, token usage, or cost records around the portable result.
 
 Usage and cost metadata are recorded by the orchestrator or adapter according to
 `usage-accounting.md`; roles do not emit billing fields.

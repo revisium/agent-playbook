@@ -247,7 +247,7 @@ The human reviews the options and responds using the vocabulary in
 Before starting pipeline execution, Revo must validate:
 
 1. The `route_plan` is well-formed per `../../method/route-plan.md`.
-2. The `human_gate` for route approval has `status: approved` or `status: cleared`.
+2. The `human_gate` for route approval has `status: approved`.
 3. No blocking clarification markers remain per `../../method/escalation.md`.
 4. Required runner implementations are present and resolved.
 

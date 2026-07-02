@@ -41,6 +41,26 @@ optional `watcher`.
 
 ## Execution Policy
 
+```yaml
+execution_policy:
+  recommended_model_levels:
+    developer: standard
+    reviewer: standard
+    integrator: standard
+    watcher: cheap
+  model_level_rules:
+    - role: reviewer
+      level: standard
+      when: selected
+  consensus_defaults:
+    - scope: default
+      value: none
+  consensus_escalations:
+    - value: single-reviewer
+      when: the change touches behavior, contracts, security, persistence, generated artifacts, or required verification gates
+  iteration_cap: 1 developer/reviewer or developer/watcher loop before needs_human
+```
+
 - Recommended model levels: developer `standard`; reviewer `standard` when
   selected; integrator `standard`; watcher `cheap`.
 - Default consensus: `none`.

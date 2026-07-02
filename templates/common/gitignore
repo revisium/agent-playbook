@@ -1,2 +1,4 @@
-.agents/*.local.md
+.agents/local.*
 .agents/runs/
+.claude/settings.local.json
+CLAUDE.local.md

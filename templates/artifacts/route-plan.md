@@ -23,6 +23,7 @@ route_plan:
     static_analysis: []
     structure_checks: []
     ci_providers: []
+  practice_references: []
   verification_capabilities:
     primary_local_gate: available | missing | unknown
     typecheck: available | missing | unknown | not-applicable

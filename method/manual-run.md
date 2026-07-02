@@ -81,7 +81,7 @@ manual_run:
   execution_adapter: codex | claude-code
   run_state_location: chat | consuming-repo-artifact | future-revo-state
   execution_policy: {}
-  next_step: route-approval | execute-pipeline | ask-human | stop
+  next_step: route-approval | execute-pipeline | needs_human | stop
 ```
 
 ## Rules

@@ -31,6 +31,28 @@ Answer a technical question or produce a plan without editing code.
 
 ## Execution Policy
 
+```yaml
+execution_policy:
+  recommended_model_levels:
+    analyst: deep
+    architect: deep
+    reviewer: standard
+  model_level_rules:
+    - role: architect
+      level: deep
+      when: selected
+    - role: reviewer
+      level: deep
+      when: factual or architectural risk is high
+  consensus_defaults:
+    - scope: default
+      value: none
+  consensus_escalations:
+    - value: single-reviewer
+      when: the answer cites source paths, line numbers, or irreversible architecture recommendations
+  iteration_cap: 1 review/fix loop for produced artifacts
+```
+
 - Recommended model levels: analyst `deep`; architect `deep` when selected;
   reviewer `standard` or `deep` when factual or architectural risk is high.
 - Default consensus: `none`.

@@ -44,6 +44,28 @@ pipelines, adapters, and maintenance rules.
 
 ## Execution Policy
 
+```yaml
+execution_policy:
+  recommended_model_levels:
+    knowledge-engineer: deep
+    architect: deep
+    reviewer: standard
+  model_level_rules:
+    - role: architect
+      level: deep
+      when: selected
+    - role: reviewer
+      level: deep
+      when: role, pipeline, or adapter boundary changes are in scope
+  consensus_defaults:
+    - scope: default
+      value: single-reviewer
+  consensus_escalations:
+    - value: dual-model
+      when: adding routable roles, changing human gates, changing materialization behavior, or changing result/usage contracts
+  iteration_cap: 2 knowledge-engineer/reviewer loops
+```
+
 - Recommended model levels: knowledge-engineer `deep`; architect `deep` when
   selected; reviewer `standard` by default and `deep` for role, pipeline, or
   adapter boundary changes.

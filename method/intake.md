@@ -20,7 +20,11 @@ Use these initial categories:
 
 - `feature-development` - feature, multi-repo change, or planned implementation.
 - `bugfix` - known defect, failing behavior, or concrete regression.
+- `local-change` - small local implementation when requirements and architecture
+  boundaries are already clear.
 - `analysis-only` - research, review, plan, explanation, or source-backed answer.
+- `quality-audit` - read-only tech-debt or conformance assessment of existing
+  code or merged changes.
 - `post-merge-qa` - deployment or live behavior verification after merge.
 - `method-development` - creating or improving roles, stacks, pipelines, adapters,
   or references.
@@ -51,6 +55,10 @@ verification_capabilities:
   static_analysis: configured | optional | unavailable | unknown
   remote_ci: available | missing | unknown
 required_roles: []
+ambiguity:
+  - field: ""
+    reason: ""
+    candidates: []
 alternative_roles:
   - group_id: ""
     roles: []
@@ -58,7 +66,7 @@ alternative_roles:
 optional_roles: []
 local_values_needed: []
 missing_capabilities: []
-recommended_next_step: route-approval | method-development | ask-human
+recommended_next_step: route-approval | method-development | needs_human
 ```
 
 ## Field Definitions

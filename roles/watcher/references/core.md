@@ -236,4 +236,4 @@ decision, return `needs_human`.
 - `../../../references/quality/static-analysis.md`
 - `../../../references/quality/pr-feedback-loop.md`
 
-Watcher feedback is a typed result per `../../../method/typed-contracts.md`. The `waiting` verdict is a provider/PR feedback state recorded in `verification_result.pr_feedback`; it does not map to `human_gate`, which is the route-approval contract owned by `route-approval.md`.
+Watcher feedback is a typed result per `../../../method/typed-contracts.md`. The `waiting` verdict is a provider/PR feedback state recorded in `verification_result.pr_feedback`; it does not map to `human_gate`, which is the route-approval contract owned by `../../../method/route-approval.md`.

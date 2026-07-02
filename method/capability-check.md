@@ -52,7 +52,7 @@ missing_capabilities:
   - kind: role
     id: ""
     impact: ""
-recommendation: proceed | run-method-development-first | ask-human
+recommendation: proceed | run-method-development-first | needs_human
 ```
 
 Allowed `kind` values: `role`, `role-group`, `stack`, `framework`, `tooling`,

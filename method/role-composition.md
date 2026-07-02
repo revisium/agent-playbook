@@ -16,8 +16,9 @@ Roles are composed, not exploded into one role per technology.
   structure checks, browser automation, or CI providers.
 - `verification_capabilities`: generic availability signals used to build a
   run-specific verification plan.
-- `practice_references`: reusable practices, for example `requirements`,
-  `adr`, `c4`, `ddd`, `bpmn`, or `test-strategy`.
+- `practice_references`: route-selected reusable practices, for example
+  `requirements`, `adr`, `c4`, `ddd`, `bpmn`, or `test-strategy`. This is
+  route/run context, not a `ROLE.md` field or section.
 - `repo_overlay`: local commands, paths, env values, and deployment facts.
 
 ## Example
@@ -36,6 +37,9 @@ practice_references:
   - cqrs
   - test-strategy
 ```
+
+The example is a resolved route context. Canonical role files still list
+knowledge files only in their `References` sections.
 
 The adapter builds context in this order:
 

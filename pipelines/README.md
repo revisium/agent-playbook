@@ -12,6 +12,7 @@ The current base is deliberately small:
 - `local-change` - small local implementation when requirements and architecture
   are already clear.
 - `analysis-only` - read-only investigation and recommendation.
+- `quality-audit` - read-only technical-debt and conformance assessment.
 - `post-merge-qa` - deploy verification and live QA loop.
 - `method-development` - add or improve roles, stacks, pipelines, adapters, and
   references.

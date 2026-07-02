@@ -29,6 +29,18 @@
         "architect": "deep",
         "reviewer": "standard"
       },
+      "model_level_rules": [
+        {
+          "role": "architect",
+          "level": "deep",
+          "when": "selected"
+        },
+        {
+          "role": "reviewer",
+          "level": "deep",
+          "when": "factual or architectural risk is high"
+        }
+      ],
       "consensus_defaults": [
         {
           "scope": "default",
@@ -93,6 +105,13 @@
         "watcher": "cheap",
         "architect": "deep"
       },
+      "model_level_rules": [
+        {
+          "role": "architect",
+          "level": "deep",
+          "when": "selected"
+        }
+      ],
       "consensus_defaults": [
         {
           "scope": "default",
@@ -157,6 +176,28 @@
         "qa-backend": "standard",
         "qa-frontend": "standard"
       },
+      "model_level_rules": [
+        {
+          "role": "architect",
+          "level": "deep",
+          "when": "selected"
+        },
+        {
+          "role": "deploy-watcher",
+          "level": "standard",
+          "when": "selected"
+        },
+        {
+          "role": "qa-backend",
+          "level": "standard",
+          "when": "selected"
+        },
+        {
+          "role": "qa-frontend",
+          "level": "standard",
+          "when": "selected"
+        }
+      ],
       "consensus_defaults": [
         {
           "scope": "task-spec review",
@@ -171,8 +212,13 @@
           "value": "dual-model"
         }
       ],
-      "consensus_escalations": [],
-      "iteration_cap": "3 developer/reviewer or developer/watcher loops before `needs_human`",
+      "consensus_escalations": [
+        {
+          "value": "dual-model",
+          "when": "cross-module, data, auth, security, migration, or public API decisions are in scope"
+        }
+      ],
+      "iteration_cap": "3 developer/reviewer or developer/watcher loops before needs_human",
       "raw": [
         "Recommended model levels: analyst `deep`; architect `deep` when selected; developer `standard`; reviewer `deep`; integrator `standard`; watcher `cheap`; deploy and QA roles `standard`.",
         "Default task-spec review consensus: `dual-model`.",
@@ -215,6 +261,13 @@
         "integrator": "standard",
         "watcher": "cheap"
       },
+      "model_level_rules": [
+        {
+          "role": "reviewer",
+          "level": "standard",
+          "when": "selected"
+        }
+      ],
       "consensus_defaults": [
         {
           "scope": "default",
@@ -227,7 +280,7 @@
           "when": "the change touches behavior, contracts, security, persistence, generated artifacts, or required verification gates"
         }
       ],
-      "iteration_cap": "1 developer/reviewer or developer/watcher loop before `needs_human`",
+      "iteration_cap": "1 developer/reviewer or developer/watcher loop before needs_human",
       "raw": [
         "Recommended model levels: developer `standard`; reviewer `standard` when selected; integrator `standard`; watcher `cheap`.",
         "Default consensus: `none`.",
@@ -267,6 +320,18 @@
         "architect": "deep",
         "reviewer": "standard"
       },
+      "model_level_rules": [
+        {
+          "role": "architect",
+          "level": "deep",
+          "when": "selected"
+        },
+        {
+          "role": "reviewer",
+          "level": "deep",
+          "when": "role, pipeline, or adapter boundary changes are in scope"
+        }
+      ],
       "consensus_defaults": [
         {
           "scope": "default",
@@ -330,6 +395,13 @@
         "qa-frontend": "standard",
         "developer": "standard"
       },
+      "model_level_rules": [
+        {
+          "role": "developer",
+          "level": "standard",
+          "when": "follow-up fixes are needed"
+        }
+      ],
       "consensus_defaults": [
         {
           "scope": "default",
@@ -379,6 +451,18 @@
         "reviewer": "standard",
         "architect": "deep"
       },
+      "model_level_rules": [
+        {
+          "role": "reviewer",
+          "level": "standard",
+          "when": "selected"
+        },
+        {
+          "role": "architect",
+          "level": "deep",
+          "when": "selected"
+        }
+      ],
       "consensus_defaults": [
         {
           "scope": "default",

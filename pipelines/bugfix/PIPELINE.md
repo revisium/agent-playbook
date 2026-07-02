@@ -35,6 +35,26 @@ optional `architect`, optional `qa-backend` or `qa-frontend`.
 
 ## Execution Policy
 
+```yaml
+execution_policy:
+  recommended_model_levels:
+    developer: standard
+    reviewer: standard
+    watcher: cheap
+    architect: deep
+  model_level_rules:
+    - role: architect
+      level: deep
+      when: selected
+  consensus_defaults:
+    - scope: default
+      value: single-reviewer
+  consensus_escalations:
+    - value: dual-model
+      when: root cause, data loss, security, concurrency, migration, or architecture boundary risk is unclear
+  iteration_cap: 3 developer/reviewer or developer/watcher loops
+```
+
 - Recommended model levels: developer `standard`; reviewer `standard`; watcher
   `cheap`; architect `deep` when selected.
 - Default consensus: `single-reviewer`.

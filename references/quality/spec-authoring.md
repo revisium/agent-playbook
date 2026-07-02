@@ -31,11 +31,12 @@ Related quality lenses:
   normative claim. Use the keywords sparingly, only where they are truly
   required for correctness, contract, or interoperability, never to impose style
   preferences.
-- [DECISION] Add a one-line conventions note to each spec: "The key words MUST,
-  MUST NOT, SHOULD, SHOULD NOT, MAY, REQUIRED, and OPTIONAL are interpreted as
-  defined in this spec's conventions, following RFC 2119 and BCP 14." The
-  meanings live inline (above and in the template) and need no external fetch.
-  Without the note, a capitalized keyword has no defined force.
+- [DECISION] Declare the keyword convention in each spec with a short note
+  stating that the key words MUST, MUST NOT, SHOULD, SHOULD NOT, MAY, REQUIRED,
+  and OPTIONAL are interpreted following RFC 2119 and BCP 14; the spec template
+  carries the canonical wording. The meanings live inline (above and in the
+  template) and need no external fetch. Without the note, a capitalized keyword
+  has no defined force.
 - [DECISION] ALL CAPS is reserved exclusively for the requirement keywords.
   Never use ALL CAPS for emphasis; it collides with the keywords and turns an
   ordinary word into a false normative signal. Use italics or reword instead.
@@ -85,8 +86,9 @@ Raise a finding when a spec:
 
 - uses ALL CAPS for emphasis instead of reserving it for the requirement
   keywords;
-- states a contractual rule with a lowercase "must" while no RFC 2119 / BCP 14
-  convention is declared, leaving the rule's force undefined;
+- states a contractual rule with a lowercase "must", or uses a capitalized
+  keyword without a declared RFC 2119 / BCP 14 convention, leaving the rule
+  without defined normative force;
 - packs more than one rule into a single statement or a single table cell;
 - contains a normative statement that is un-testable, circular, or hedged with a
   weasel word;

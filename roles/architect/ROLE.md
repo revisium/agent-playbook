@@ -44,7 +44,8 @@ Deep.
 ## Outputs
 
 - `architecture_plan`
-- ADR candidate when a decision is architecturally significant
+- ADR candidate when a decision is architecturally significant, with a linked
+  spec when the decision carries a concrete contract
 - implementation slices and constraints for developer handoff
 - boundary, contract, migration, quality-attribute, and verification
   constraints

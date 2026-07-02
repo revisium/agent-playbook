@@ -24,8 +24,8 @@ Related quality lenses:
   own lifecycle. If a record carries two decisions that could be accepted,
   rejected, or superseded independently, split it.
 - [DECISION] Keep it concise: target a document readable in about five minutes,
-  roughly one to two pages. Supporting detail belongs in the linked spec, not in
-  the ADR.
+  roughly seventy lines or fewer. Supporting detail belongs in the linked spec,
+  not in the ADR; overflow is almost always specification material.
 - [DECISION] Focus on why, not how. An ADR states that a decision was made and
   why it was made. Every concrete contract token belongs in the linked spec, not
   the ADR: file or module paths, type, struct, field, or enum names, schemas,
@@ -43,7 +43,7 @@ Related quality lenses:
   rejected. Do not list strawmen that exist only to make the chosen option look
   inevitable. For a complex decision you MAY enrich this with explicit Decision
   Drivers and per-option pros and cons (the MADR shape); keep that optional, and
-  never at the cost of the length discipline below.
+  never at the cost of the length discipline above.
 - [DECISION] Follow the status lifecycle: Draft, then Accepted or Rejected, then
   Deprecated or Superseded. "Draft" and "Proposed" are aliases for the single
   pre-Accepted state; use Draft as the canonical term and treat Proposed as an
@@ -64,9 +64,6 @@ Related quality lenses:
   while the ADR is a draft. A non-canonical section such as "Examples",
   "Boundaries", or "Schema" that is doing specification work is a smell; move it
   to the spec.
-- [DECISION] Hold length discipline: target about seventy lines or fewer.
-  Overflow is almost always specification material that belongs in the linked
-  spec.
 
 ## Review Blockers
 
@@ -85,7 +82,7 @@ Raise a finding when an ADR:
   lifecycle changes in the body instead of the header;
 - puts definition-of-done, acceptance criteria, or a test plan in the body;
 - edits an already-Accepted ADR's decision instead of writing a superseding one;
-- blows past the length target because how-detail was written inline instead of
+- exceeds the length target because how-detail was written inline instead of
   linked.
 
 ## Authoring Check

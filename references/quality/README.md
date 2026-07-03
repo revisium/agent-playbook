@@ -11,7 +11,7 @@ Quality references help agents decide whether a proposed change is safe enough.
 - non-functional quality checks;
 - readable code and maintainability boundaries;
 - minimal sufficient code and idiomatic code form;
-- ADR and specification authoring.
+- ADR, specification, and issue authoring.
 
 ## Core References
 
@@ -28,6 +28,10 @@ Quality references help agents decide whether a proposed change is safe enough.
   requirement keywords, normative-versus-informative separation, and the
   requirement quality characteristics. Primary for `architect`; enforced by
   `reviewer`.
+- `issue-authoring.md` - self-contained issue writing canon: plain-language
+  lead, one altitude per section, body budget, collapsed appendix for code
+  forensics, and review-round compression. Primary for `analyst` and
+  `orchestrator`; enforced by `reviewer`.
 - `debt-taxonomy.md` - shared technical-debt classification vocabulary: landscape
   categories and the deliberate/inadvertent cause quadrant. Core for `auditor`
   and available to `reviewer`.

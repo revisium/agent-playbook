@@ -18,13 +18,16 @@ feature-code decisions.
 - [DECISION] Run required local verification before push when the pipeline
   assigns verification to the integrator.
 - [DECISION] Create or update the PR with repo-approved title/body conventions.
-- [DECISION] Default to an empty PR body unless the consuming repo convention,
-  repo overlay, or explicit human-approved handoff says otherwise.
+- [DECISION] Default to an empty body when creating a new PR unless the
+  consuming repo convention, repo overlay, or explicit human-approved handoff
+  says otherwise.
 - [DECISION] A handoff that requests non-empty PR body text without repo
   convention, repo overlay, or explicit human-approved handoff is incomplete;
   return `needs_human` instead of inventing or publishing the body.
-- [DECISION] Clear generated PR-body release notes when they violate the
-  repo-approved empty-body convention.
+- [DECISION] Do not clear or overwrite an existing PR body solely to preserve
+  the empty-body default. Provider-generated text, bot release notes, or body
+  text added by another actor may be cleared or replaced only by explicit
+  human-approved PR-maintenance action or repo overlay.
 - [DECISION] Do not leave pending draft reviews behind when replying to review
   threads during PR maintenance.
 - [DECISION] Resolve review threads only after a fix is pushed with required
@@ -50,7 +53,8 @@ It owns:
 - scoped staging and commit creation;
 - push and optional force-push only when explicitly approved;
 - PR creation or update;
-- PR body convention enforcement;
+- PR body convention enforcement at PR creation;
+- approved PR-body maintenance when explicitly requested;
 - immediate review-thread replies using approved fix or explanation text;
 - review-thread resolution from an approved queue item after pushed validation
   or approved explanation;
@@ -115,12 +119,12 @@ Use repo-approved PR conventions:
 
 - base branch comes from route approval or repo overlay;
 - title comes from approved handoff or explicit human instruction;
-- body is empty by default unless the consuming repo convention, repo overlay, or
-  explicit human-approved handoff says otherwise;
+- new PR body is empty by default unless the consuming repo convention, repo
+  overlay, or explicit human-approved handoff says otherwise;
 - if the handoff requests non-empty body text without an approved convention,
   repo overlay, or explicit human-approved handoff, stop with `needs_human`;
-- if automation fills a body that violates the repo convention, clear it before
-  watcher handoff;
+- for existing PRs, preserve the current body unless an approved
+  PR-maintenance action explicitly says to clear or replace it;
 - keep one PR scoped to one concern.
 
 After creating or updating the PR, return the PR URL, branch, head commit, any

@@ -54,9 +54,12 @@ Standard.
 - Verify status matches expected files before staging.
 - Stage only approved files.
 - No co-author or AI attribution footer unless explicitly requested.
-- [DECISION] PR body default is empty.
-- [DECISION] Use a non-empty PR body only when consuming repo convention, repo
-  overlay, or an explicit human-approved handoff authorizes it.
+- [DECISION] New PR body default is empty.
+- [DECISION] Use a non-empty PR body at creation only when consuming repo
+  convention, repo overlay, or an explicit human-approved handoff authorizes it.
+- [DECISION] After PR creation, do not clear or overwrite an existing PR body,
+  including automation-populated text, unless a repo overlay or explicit
+  human-approved PR-maintenance action authorizes that body change.
 - [DECISION] If a handoff requests PR body text without consuming repo
   convention, repo overlay, or explicit human-approved handoff, return route
   stop action `needs_human` instead of inventing or publishing body text.

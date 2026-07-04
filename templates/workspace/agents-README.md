@@ -64,3 +64,6 @@ execution_profile: .agents/local.execution-profile.md
   `{{AGENTS_REPO_PATH}}`.
 - Keep run artifacts out of reusable method changes unless the workspace
   explicitly commits them.
+- PR bodies are empty only by default at creation time. Do not clear or
+  overwrite a PR body later, including automation-populated text, unless an
+  explicit human-approved PR-maintenance action or repo overlay requires it.

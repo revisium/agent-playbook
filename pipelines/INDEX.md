@@ -37,12 +37,9 @@ Each record defines:
 
 - path: `pipelines/bugfix/PIPELINE.md`
 - triggers: known defect, QA finding, watcher finding, CI or review defect
-- required_roles: `orchestrator`, `developer`, `integrator`, `watcher`
-- alternative_roles:
-  - group_id: defect-analysis
-    roles: `analyst`, `reviewer`
-    resolution: at_least_one
-- optional_roles: `architect`, `qa-backend`, `qa-frontend`
+- required_roles: `orchestrator`, `reviewer`, `developer`, `integrator`, `watcher`
+- alternative_roles: []
+- optional_roles: `analyst`, `architect`, `qa-backend`, `qa-frontend`
 - route_gates: risky missing reproduction, behavior/product decision,
   merge approval
 - platform_invocation: `canonical-only`

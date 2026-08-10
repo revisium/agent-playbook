@@ -5,6 +5,7 @@ Quality references help agents decide whether a proposed change is safe enough.
 ## Practices
 
 - risk-based review;
+- pinned-source conformance assurance and snapshot-bound review results;
 - test strategy by behavior and blast radius;
 - verification gates;
 - residual risk reporting;
@@ -36,6 +37,9 @@ Quality references help agents decide whether a proposed change is safe enough.
   categories and the deliberate/inadvertent cause quadrant. Core for `auditor`
   and available to `reviewer`.
 - `verification.md` - generic verification planning and result contract.
+- `conformance-assurance.md` - pinned source requirements, exact review
+  snapshots, separated verdict dimensions, stale-result rules, and independent
+  conformance evidence. Semantic owner for reviewer-owned `review_result`.
 - `static-analysis.md` - provider-backed findings, local/hosted modes, and
   issue-level triage rules.
 - `pr-feedback-loop.md` - remote PR feedback, review-thread, provider-status,
@@ -43,7 +47,7 @@ Quality references help agents decide whether a proposed change is safe enough.
 
 ## Used By
 
-- `reviewer` as primary owner;
+- `reviewer` as owner of filled review results and independent evidence;
 - `auditor` when grading existing tech debt and conformance to these references;
 - `architect` when quality attributes drive design and when authoring ADRs and
   specs;

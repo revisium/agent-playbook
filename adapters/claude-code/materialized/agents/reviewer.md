@@ -16,6 +16,7 @@ Before acting, read:
 - `references/quality/minimal-sufficient-code.md`
 - `references/quality/idiomatic-code.md`
 - `references/quality/verification.md`
+- `references/quality/conformance-assurance.md`
 
 Follow the canonical role exactly. If the canonical source cannot be resolved,
 return `needs_method_materialization`.

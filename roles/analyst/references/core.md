@@ -13,6 +13,17 @@ development contract without choosing architecture or implementation mechanics.
 - [ORCHESTRATOR] For multi-repo work, define repo order before implementation.
 - [DECISION] Analyst must not convert assumptions into requirements. Unknowns
   remain `open_questions` until resolved or routed.
+- [DECISION] When required behavior is governed by source material, analyst
+  records `task_spec.source_requirements` with source provenance, completeness,
+  and immutable pins. Mutable branches, tags, URLs, or latest-artifact locators
+  do not satisfy the pin requirement.
+- [DECISION] Analyst marks source requirements `complete` only when every
+  governing source is present and immutably pinned and every applicable source
+  requirement has a provenance mapping. Missing, ambiguous, or unpinned source
+  sets remain `incomplete` or `unknown`.
+- [DECISION] Treat `published-version` as immutable only with source-backed
+  evidence that the publishing system prevents replacement of that exact
+  version. Otherwise use a content digest or mark the source set incomplete.
 - [DECISION] Analyst must not prescribe classes, APIs, persistence shape,
   framework patterns, or implementation mechanics unless those details already
   exist in source material or an approved architecture artifact.
@@ -39,8 +50,11 @@ Start with the smallest source set that can prove or disprove the task brief:
    `REVIEW.md`, `VERIFICATION.md`, ADRs, specs, schemas, route files, tests,
    and source files that own the behavior.
 3. Record each inspected source in `task_spec.sources` with why it mattered.
-4. Distinguish confirmed behavior from inferred behavior.
-5. Stop when additional reading would not change requirements or route choice.
+4. When conformance to source material is required, build
+   `task_spec.source_requirements`, pin each governing source, and map its
+   applicable requirements.
+5. Distinguish confirmed behavior from inferred behavior.
+6. Stop when additional reading would not change requirements or route choice.
 
 For feedback-loop tasks, inspect the finding source before expanding scope:
 review thread, CI output, static-analysis finding, QA report, deploy report, or
@@ -156,6 +170,34 @@ For multi-repo work, define ordering before implementation:
 If the ordering cannot be proven from source material, mark the dependency as an
 open question or route to architect/human according to the blocker.
 
+## Source Requirements
+
+`task_spec.sources` is the discovery log for inspected evidence.
+`task_spec.source_requirements` is the narrower conformance input: the governing
+source set, its immutable identities, and the source requirements the reviewer
+must trace to implementation and verification evidence.
+
+- [DECISION] Use `applicability: required` when approved behavior,
+  compatibility, generation, policy, protocol, schema, specification, or
+  another contract must conform to identified source material. Use
+  `not-applicable` only when no source-governed conformance claim is part of the
+  task.
+
+`completeness` means:
+
+- `complete` - the full applicable source set is known, present, immutably
+  pinned, mapped into `requirements`, and any `published-version` pin includes
+  evidence that the publishing system prevents replacement;
+- `incomplete` - a known source, pin, or requirement mapping is missing;
+- `unknown` - the analyst cannot prove that the governing source set is
+  complete;
+- `not-applicable` - `applicability` is also `not-applicable`.
+
+The source `locator` may remain human-readable or mutable for discovery. The
+`immutable_pin` is the identity downstream roles rely on. A requirement's
+`source_locator` points to the narrow section, rule, node, or record inside the
+pinned source that supports its summary.
+
 ## `task_spec`
 
 Fillable template:
@@ -169,6 +211,21 @@ task_spec:
   sources:
     - path: ""
       why_used: ""
+  source_requirements:
+    applicability: required | not-applicable
+    completeness: complete | incomplete | unknown | not-applicable
+    sources:
+      - id: ""
+        locator: ""
+        immutable_pin:
+          kind: commit | tree | content-digest | published-version | artifact-revision
+          value: ""
+          immutability_evidence: []
+    requirements:
+      - id: ""
+        source_id: ""
+        source_locator: ""
+        summary: ""
   scope:
     in: []
     out: []
@@ -199,6 +256,17 @@ task_spec:
 - `goal` states the desired outcome without prescribing implementation.
 - `sources` lists inspected files, docs, findings, or external artifacts with
   why each source mattered.
+- [DECISION] `source_requirements` lists only governing conformance sources and
+  their applicable requirements. Its source ids and requirement ids must be
+  stable within the task handoff.
+- [DECISION] `source_requirements.sources[].immutable_pin` identifies immutable
+  content; the corresponding `locator` remains the reloadable discovery path.
+- [DECISION] Fill `immutability_evidence` for a `published-version` pin with
+  source-backed publishing-system guarantees that the version cannot be
+  replaced.
+- [DECISION] Set `source_requirements.completeness` from the full source set,
+  pins, and provenance mappings, not from whether the currently inspected
+  implementation appears correct.
 - `scope.in` and `scope.out` prevent downstream agents from widening the task.
 - `current_behavior` and `desired_behavior` describe behavior, not code shape.
 - `requirements.functional` and `requirements.non_functional` must be testable

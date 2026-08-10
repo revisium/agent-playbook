@@ -103,6 +103,28 @@ the uncertainty in `verification_plan` instead of guessing.
 - Missing credentials, project access, or provider config must be reported as
   skipped or `needs_human`; never report the provider gate as passed.
 
+## Assurance-Driven Test Selection
+
+When `task_spec.source_requirements` is applicable, select verification that can
+distinguish conformance from superficial success. The resulting evidence feeds
+the conformance matrix and independent checks in `conformance-assurance.md`.
+
+- [DECISION] Select direct verification evidence for every applicable source
+  requirement; aggregate suite success alone does not prove requirement-level
+  conformance.
+- [DECISION] Include negative cases for invalid input, rejected state,
+  permissions, boundaries, failures, or rollback behavior when those outcomes
+  are part of the governing contract.
+- [DECISION] When a rule applies to a sibling class, select coverage that
+  accounts for the full applicable population rather than one representative.
+- [DECISION] For contract-heavy tasks, store golden input/output vectors as
+  consuming-repository-owned artifacts with reloadable paths or refs and content
+  digests. Select context axes and cases and record excluded contexts with
+  reasons and source evidence.
+- [DECISION] A changed target snapshot, source pin, source requirement, or
+  governing context invalidates affected evidence and requires the affected
+  checks to be rerun.
+
 ## `verification_plan`
 
 `verification_plan` is the concrete gate plan prepared before developer

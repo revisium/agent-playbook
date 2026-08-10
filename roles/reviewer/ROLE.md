@@ -31,6 +31,7 @@ Deep.
 ## Inputs
 
 - task spec or review target
+- conformance-assurance inputs required by the selected review mode
 - diff and full changed files
 - repo invariants
 - architecture plan, implementation brief, verification plan, and verification
@@ -41,7 +42,7 @@ Deep.
 
 ## Outputs
 
-- structured verdict
+- `review_result` artifact bound to the reviewed snapshot
 - findings with file and line
 - gate results
 - residual risks
@@ -53,6 +54,9 @@ Deep.
 ## Hard Rules
 
 - Review real files, not only the diff.
+- [DECISION] Produce `review_result` according to
+  `../../references/quality/conformance-assurance.md`; that reference owns the
+  detailed snapshot, dimension, sibling-audit, and vector semantics.
 - A finding from any independent review voice is considered until adjudicated.
 - Do not decide the consensus width yourself; follow the approved
   `execution_policy.consensus_policy`.
@@ -80,5 +84,6 @@ Deep.
 - `../../references/quality/minimal-sufficient-code.md`
 - `../../references/quality/idiomatic-code.md`
 - `../../references/quality/verification.md`
+- `../../references/quality/conformance-assurance.md`
 - `../../references/quality/static-analysis.md`
 - `../../references/quality/pr-feedback-loop.md`

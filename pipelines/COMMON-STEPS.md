@@ -43,3 +43,16 @@ When static analysis is selected by repo evidence, the plan records provider
 state, local or hosted mode, issue-level access, finding categories, and the
 false-positive or accepted-risk policy. Missing provider access is a skipped or
 `needs_human` state, not a passed gate.
+
+## Standard Review Assurance
+
+Before a reviewer gate, the orchestrator supplies the exact target snapshot and,
+when source requirements apply, the exact analyst-owned source-requirements
+snapshot plus its source-id-to-immutable-pin set. The reviewer returns
+`review_result` according to
+`../references/quality/conformance-assurance.md`.
+
+- [DECISION] A reviewer gate passes only with a current `review_result` whose
+  applicable verdict dimensions and every required independent check governing
+  them pass. A later target, source-requirements snapshot, or source-pin-set
+  change makes the result stale and requires a new review of affected evidence.

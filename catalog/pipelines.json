@@ -73,21 +73,14 @@
     ],
     "required_roles": [
       "orchestrator",
+      "reviewer",
       "developer",
       "integrator",
       "watcher"
     ],
-    "alternative_roles": [
-      {
-        "group_id": "defect-analysis",
-        "roles": [
-          "analyst",
-          "reviewer"
-        ],
-        "resolution": "at_least_one"
-      }
-    ],
+    "alternative_roles": [],
     "optional_roles": [
+      "analyst",
       "architect",
       "qa-backend",
       "qa-frontend"

@@ -27,6 +27,8 @@ These templates are fillable copies of canonical run artifacts.
   plan.
 - `verification-result.md` - developer, integrator, or watcher evidence from
   executed gates and PR feedback.
+- `review-result.md` - reviewer-owned, snapshot-bound conformance, architecture,
+  code-quality, verification, and independent-check verdicts.
 - `role-result.md` - role / node result envelope (typed contract).
 - `human-gate.md` - single human gate entry in `run_state.gates` (typed contract).
 - `artifact-ref.md` - artifact reference; generalizes `*_ref` fields and
@@ -52,7 +54,8 @@ The templates mirror schemas from these source files:
 - `../../roles/deploy-watcher/references/core.md`;
 - `../../roles/qa-backend/references/core.md`;
 - `../../roles/qa-frontend/references/core.md`;
-- `../../references/quality/verification.md`.
+- `../../references/quality/verification.md`;
+- `../../references/quality/conformance-assurance.md`.
 
 If a template conflicts with a canonical schema, the canonical schema wins.
 

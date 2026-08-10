@@ -14,6 +14,15 @@ integration.
   width.
 - [DECISION] Review real files and relevant surrounding context, not only the
   diff hunks.
+- [DECISION] Produce the reviewer-owned `review_result` defined by
+  `../../../references/quality/conformance-assurance.md` for each completed
+  review gate.
+- [DECISION] Apply the detailed snapshot, verdict-dimension, sibling-audit,
+  golden-vector, context-matrix, and approval invariants only from
+  `../../../references/quality/conformance-assurance.md`.
+- [DECISION] Reviewer owns selection and execution of independent review checks.
+  Negative-case evidence requires a reviewer-executed case or independent probe;
+  inability to execute blocks the governed verdict.
 - [DECISION] Lead with findings ordered by severity; keep summaries secondary.
 - [DECISION] Cite concrete file and line references for implementation findings.
 - [DECISION] Verify that tests, docs, and quality gates cover the changed
@@ -57,6 +66,9 @@ the current mode.
   architecture constraints without regressions.
 - Re-review checks only the fix and collateral risk unless the new diff opens a
   larger problem.
+- Conformance review traces every applicable pinned source requirement to
+  implementation and verification evidence and applies the independent checks
+  selected by `../../../references/quality/conformance-assurance.md`.
 - PR-feedback review classifies review threads, static-analysis findings, bot
   findings, and human comments when watcher cannot decide the next owner.
 
@@ -182,6 +194,11 @@ Common mappings:
 
 ## Review Checklist
 
+- [DECISION] Apply the complete review-result checklist and pass conditions from
+  `../../../references/quality/conformance-assurance.md` without restating or
+  weakening them here.
+- [DECISION] Confirm required negative cases have reviewer execution or
+  independent-probe evidence, not test inspection alone.
 - Diff is scoped to one concern.
 - The change uses the smallest sufficient implementation surface and reuses
   existing local patterns where appropriate.
@@ -203,6 +220,8 @@ Common mappings:
 
 Lead with findings ordered by severity. Then include:
 
+- the `review_result` defined by
+  `../../../references/quality/conformance-assurance.md`;
 - consensus or adjudication status for the current review gate;
 - gates inspected and gaps in evidence;
 - false-positive or accepted-risk decisions with evidence;
@@ -211,6 +230,11 @@ Lead with findings ordered by severity. Then include:
 
 If no findings remain, say that explicitly and still report test gaps,
 unverified provider access, or residual risk.
+
+`review_result` is owned by
+`../../../references/quality/conformance-assurance.md` and has a fillable copy
+at `../../../templates/artifacts/review-result.md`. It accompanies the finding
+records above; it does not replace their fix direction or route action.
 
 ## Source Material
 
@@ -222,8 +246,9 @@ unverified provider access, or residual risk.
 - `../../../references/quality/minimal-sufficient-code.md`
 - `../../../references/quality/idiomatic-code.md`
 - `../../../references/quality/verification.md`
+- `../../../references/quality/conformance-assurance.md`
 - `../../../references/quality/static-analysis.md`
 - `../../../references/quality/pr-feedback-loop.md`
 
-Reviewer findings and the review result are typed contracts per
-`../../../method/typed-contracts.md`.
+Reviewer returns findings and `review_result` as role artifacts inside the
+portable `role_result` envelope from `../../../method/typed-contracts.md`.

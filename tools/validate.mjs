@@ -1506,6 +1506,11 @@ function validateArtifactSchemaSync() {
       templatePath: join(root, "templates/artifacts/verification-result.md"),
       heading: "## `verification_result`",
     },
+    {
+      canonicalPath: join(root, "references/quality/conformance-assurance.md"),
+      templatePath: join(root, "templates/artifacts/review-result.md"),
+      heading: "## `review_result`",
+    },
   ];
 
   for (const { canonicalPath, templatePath, heading } of artifacts) {

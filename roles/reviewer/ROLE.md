@@ -80,6 +80,7 @@ Deep.
 - `../../references/quality/debt-taxonomy.md`
 - `../../references/quality/adr-authoring.md`
 - `../../references/quality/spec-authoring.md`
+- `../../references/quality/natural-language-authoring.md`
 - `../../references/quality/readable-code.md`
 - `../../references/quality/minimal-sufficient-code.md`
 - `../../references/quality/idiomatic-code.md`

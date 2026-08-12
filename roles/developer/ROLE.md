@@ -78,4 +78,5 @@ Standard.
 - `../../references/quality/idiomatic-code.md`
 - `../../references/quality/verification.md`
 - `../../references/quality/static-analysis.md`
+- `../../references/quality/natural-language-authoring.md`
 - `../../references/quality/README.md`

@@ -12,7 +12,8 @@ Quality references help agents decide whether a proposed change is safe enough.
 - non-functional quality checks;
 - readable code and maintainability boundaries;
 - minimal sufficient code and idiomatic code form;
-- ADR, specification, and issue authoring.
+- ADR, specification, and issue authoring;
+- natural professional text with conditional language profiles.
 
 ## Core References
 
@@ -33,6 +34,9 @@ Quality references help agents decide whether a proposed change is safe enough.
   lead, one altitude per section, body budget, collapsed appendix for code
   forensics, and review-round compression. Primary for `analyst` and
   `orchestrator`; enforced by `reviewer`.
+- `natural-language-authoring.md` - language-neutral rules for clear,
+  meaning-preserving professional text, terminology consistency, and
+  non-subjective review. Used by authoring roles and `reviewer`.
 - `debt-taxonomy.md` - shared technical-debt classification vocabulary: landscape
   categories and the deliberate/inadvertent cause quadrant. Core for `auditor`
   and available to `reviewer`.
@@ -45,13 +49,23 @@ Quality references help agents decide whether a proposed change is safe enough.
 - `pr-feedback-loop.md` - remote PR feedback, review-thread, provider-status,
   waiting, and merge-readiness loop.
 
+## Conditional Language Profiles
+
+- `languages/russian.md` - Russian-specific guidance for calques, word order,
+  passive and nominal constructions, bureaucratic phrasing, and technical-term
+  handling. Select it only through the conditions in
+  `natural-language-authoring.md`.
+
 ## Used By
 
-- `reviewer` as owner of filled review results and independent evidence;
+- `reviewer` as owner of filled review results and independent evidence, and
+  when checking the clarity and meaning of human-readable text;
 - `auditor` when grading existing tech debt and conformance to these references;
 - `architect` when quality attributes drive design and when authoring ADRs and
-  specs;
-- `developer` when implementing readable code, selecting tests, and running local
-  verification;
+  specs or other human-readable text;
+- `analyst` and `knowledge-engineer` when authoring human-readable text;
+- `developer` when implementing readable code, selecting tests, running local
+  verification, or authoring human-readable text;
 - `watcher` when classifying CI, static-analysis, and review outcomes;
-- `orchestrator` when deciding whether a gate is satisfied.
+- `orchestrator` when deciding whether a gate is satisfied and when creating a
+  long-lived artifact.

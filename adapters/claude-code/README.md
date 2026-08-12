@@ -67,6 +67,50 @@ and canonical method.
   entry that names the exact role, action, missing capability, fallback actor,
   scope, and risk.
 
+## Headless Runner Mechanics
+
+These mechanics follow the official Claude Code
+[CLI reference](https://code.claude.com/docs/en/cli-reference) and
+[authentication precedence](https://code.claude.com/docs/en/authentication#authentication-precedence).
+
+- [CODE] Use `claude -p` for a non-interactive attempt. Automation should request
+  JSON output, disable session persistence, select the approved permission mode,
+  and apply the route's turn bound, for example:
+
+  ```sh
+  claude -p --output-format json --permission-mode plan \
+    --no-session-persistence --max-turns 1 "{{PROMPT}}"
+  ```
+
+- [CODE] Run `claude auth status --json` as the zero-cost auth preflight in the
+  exact working directory, effective environment and config, operating-system
+  user or container, and launcher that will run `claude -p`. Exit zero means a
+  credential is configured; it does not provider-validate that credential.
+- [CODE] Claude Code applies documented credential precedence across cloud
+  provider credentials, `ANTHROPIC_AUTH_TOKEN`, `ANTHROPIC_API_KEY`,
+  `apiKeyHelper`, `CLAUDE_CODE_OAUTH_TOKEN`, profiles or federation, and cached
+  login.
+- [DECISION] The normalized active source must match the credential source
+  declared by the launcher; conflicting or unaccounted-for sources are
+  `ambiguous`. Use the credential-source meanings from
+  `../../method/execution-policy.md`: environment injection is
+  `invocation-env`, persisted `/login` state is `cached-login`, and delivery
+  owned by a runtime, platform, or configured helper is `runtime-managed`.
+- [DECISION] Normalize the status JSON to the canonical readiness fields in
+  `../../method/execution-policy.md`, then discard the raw response. Never
+  retain account identifiers, raw identity output, or secrets.
+- [CODE] `--bare` skips normal discovery of `CLAUDE.md`, skills, hooks, plugins,
+  MCP servers, auto memory, and related project context.
+- [DECISION] Use `--bare` only when an explicit local execution profile or
+  runtime config selects bare execution and records the reduced context;
+  canonical playbook execution is non-bare by default.
+- [DECISION] Run `claude -p` automatically only when readiness is `ready` and
+  the execution context still matches the preflight context.
+- [DECISION] After an auth failure, do not retry automatically, automate
+  `/login` or `claude auth login`, switch accounts or providers, use a fallback
+  model/provider, fall back to another credential source, or silently change
+  profiles. Invalidate readiness and return the failure to the orchestrator.
+
 ## Rules
 
 - Do not commit local settings or resolved accounts.

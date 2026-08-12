@@ -17,6 +17,7 @@ available method definitions.
 - selected practice references;
 - adapter target: Codex, Claude Code, or revo.
 - local execution profile when available.
+- runner readiness evidence keyed by resolved runner id.
 
 ## Checks
 
@@ -43,6 +44,14 @@ available method definitions.
 17. Selected role execution capabilities are available for the chosen adapter,
     or the route plan records an explicit role-owned action fallback for human
     approval.
+18. [DECISION] Every selected runner supports a headless invocation for the
+    intended launcher.
+19. [DECISION] Every selected runner has current readiness evidence from the
+    same working directory, effective environment and config, operating-system
+    user or container, and launcher command or wrapper that will execute it.
+20. [DECISION] The normalized auth status and credential source match the source
+    declared by the launcher. A configured status check is readiness-to-attempt
+    evidence, not proof that the provider will accept the credential.
 
 ## Output
 
@@ -57,7 +66,8 @@ recommendation: proceed | run-method-development-first | needs_human
 
 Allowed `kind` values: `role`, `role-group`, `stack`, `framework`, `tooling`,
 `practice`, `pipeline`, `adapter`, `local-value`, `model-profile`, `runner`,
-`consensus-provider`, `budget`, `role-action-capability`.
+`runner-invocation`, `runner-auth`, `consensus-provider`, `budget`,
+`role-action-capability`.
 
 ## Rules
 
@@ -71,6 +81,14 @@ Allowed `kind` values: `role`, `role-group`, `stack`, `framework`, `tooling`,
   the orchestrator degrades models or narrows consensus.
 - Missing selected runners require human approval before the orchestrator
   changes runner bindings or switches to a different execution profile.
+- [DECISION] Record `runner-invocation` when the resolved runner's headless
+  invocation is missing, unsupported, or unknown. Record `runner-auth` when
+  auth, credential-source matching, preflight, same-context evidence, or
+  readiness is missing, ambiguous, failed, stale, or unknown.
+- [DECISION] Any selected runner whose normalized readiness is not `ready`
+  blocks automatic execution. Do not substitute an interactive entrypoint,
+  login flow, provider, account, credential source, runner binding, or
+  execution profile.
 - Budget constraints that would change model level, consensus mode, or iteration
   cap require route-plan regeneration and human approval.
 - [DECISION] Missing selected role execution capability blocks automatic

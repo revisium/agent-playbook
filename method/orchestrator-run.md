@@ -92,7 +92,8 @@ The plan must show:
 - missing capabilities;
 - model-level recommendations and concrete-model source;
 - runner policy, including selected role runner bindings, binding or override
-  source, and missing runners;
+  source, missing runners, and normalized readiness evidence keyed by resolved
+  runner id;
 - consensus policy for review gates;
 - iteration cap and budget policy;
 - usage-accounting policy;
@@ -161,6 +162,25 @@ Sonar, CI-provider, or framework assumptions.
 
 Read the approved `pipelines/<pipeline>/PIPELINE.md` and execute its steps.
 
+[DECISION] Before each external CLI runner's first attempt, and again after any
+relevant context change:
+
+1. Resolve the exact working directory, effective environment and config,
+   operating-system user or container, and launcher command or wrapper.
+2. Confirm the launcher's declared credential source.
+3. Invalidate readiness evidence created in a different context.
+4. Run the adapter's zero-cost auth/status preflight in the same context,
+   normalize the result into `runner_readiness`, and discard raw auth or
+   identity output.
+5. Execute the headless command in that unchanged context only when normalized
+   readiness is `ready`.
+
+[DECISION] A status preflight establishes readiness to attempt, not provider
+credential validity. If the attempted call fails authentication, invalidate
+readiness and stop automatic execution without retrying the call, starting an
+interactive login, persisting a credential, falling back to another provider or
+account, or silently changing the execution profile.
+
 [DECISION] The orchestrator may prepare handoffs, launch or coordinate selected
 roles, receive role outputs, classify gates, and maintain run state.
 
@@ -208,6 +228,7 @@ orchestrator_run:
       runner_bindings_source: playbook-catalog | execution-profile | runtime-config | mixed | unknown
       runner_overrides: {}
       missing_runners: []
+      runner_readiness: {}
     consensus_policy: {}
     budget_policy: {}
     usage_accounting: {}
@@ -258,6 +279,7 @@ Proposed route:
 - verification capabilities: <ready, missing, or unknown gates>
 - model policy: <role -> model level, concrete source>
 - runner policy: <role -> runner id, binding source, overrides, missing runners>
+- runner readiness: <runner id -> normalized readiness and evidence source>
 - consensus policy: <none, single-reviewer, dual-model, adversarial-consensus>
 - budget policy: <iteration cap, token budget, reported-cost budget>
 - missing capabilities: <none or list>
@@ -280,6 +302,9 @@ first, or stop.
   plan and rerun capability check.
 - If a human changes execution profile, runner availability, or runner
   overrides, regenerate the route plan and rerun capability check.
+- [DECISION] Automatic external CLI execution requires current `ready` evidence
+  produced by a preflight in the same launch context. Context changes and auth
+  failures invalidate that evidence.
 - If blocking capabilities are missing, recommend `method first` or
   `analysis only`.
 - [DECISION] Role-owned actions must run through the selected role capability

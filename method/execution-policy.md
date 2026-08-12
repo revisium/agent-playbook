@@ -28,6 +28,66 @@ ids for a run, for example `claude-code -> stub-agent`. Overrides select runner
 implementations; they must not create separate stub roles or change pipeline
 role ids.
 
+## Runner Readiness
+
+[DECISION] Runner availability and runner readiness are orthogonal. Availability
+says that the resolved runner implementation exists. Readiness says that the
+exact headless invocation is ready to be attempted in the launch context
+selected for this run.
+
+[DECISION] The canonical readiness map is keyed by resolved runner id:
+
+```yaml
+runner_readiness:
+  "{{RUNNER_ID}}":
+    status: ready | missing | ambiguous | unknown
+    headless_invocation: supported | unsupported | unknown
+    auth_status: configured | missing | ambiguous | not-required | unknown
+    credential_source: cached-login | invocation-env | runtime-managed | not-required | unknown
+    preflight_status: passed | failed | not-run | not-required
+    evidence_source: live-preflight | execution-profile | runtime-config | unknown
+```
+
+[DECISION] `cached-login` means credential state persisted by the runner;
+`invocation-env` means a credential injected only into the effective process
+environment; `runtime-managed` means a runtime, platform, or configured helper
+owns credential delivery; `not-required` means the runner needs no credential;
+and `unknown` means the source could not be normalized.
+
+- [DECISION] The launch context is the combination of working directory,
+  effective environment and configuration, operating-system user or container,
+  and launcher command or wrapper. Readiness evidence applies only to that same
+  context.
+- [DECISION] `status: ready` means ready to attempt the headless call; it does
+  not prove that a provider will accept, refresh, or authorize the selected
+  credential on the next request.
+- [DECISION] A runner is `ready` only when headless invocation is `supported`,
+  auth is `configured` or `not-required`, the credential source is known and
+  matches the source declared by the launcher, preflight is `passed` or
+  `not-required`, and the evidence is current for the same launch context.
+- [DECISION] The preflight method is credential-source-specific: it must inspect
+  the source declared by the launcher and detect competing effective sources. A
+  storage-only status check cannot establish `invocation-env` readiness. A
+  source mismatch or unresolved competing source is `ambiguous` unless explicit
+  runtime configuration safely resolves the intended source before execution.
+- [DECISION] An external CLI runner additionally requires a same-context live
+  preflight before its first attempt. Execution-profile or runtime-config
+  evidence may describe expected readiness, but it does not replace that live
+  preflight.
+- [DECISION] Only `status: ready` permits automatic execution. `missing`,
+  `ambiguous`, and `unknown` block the automatic attempt and remain visible in
+  capability output and the route plan.
+- [DECISION] Any launch-context change invalidates prior readiness evidence. A
+  new attempt after the change requires a new same-context preflight.
+- [DECISION] An authentication failure from an attempted call invalidates the
+  runner's readiness immediately. The adapter must not retry the call
+  automatically, start an interactive login, persist a supplied credential,
+  fall back to another provider or account, or silently change the execution
+  profile.
+- [DECISION] Readiness artifacts contain normalized status only. Keep secrets,
+  account identifiers, raw identity or auth output, and private paths out of
+  canonical artifacts and human-visible route evidence.
+
 [DECISION] Public product runs must not expose runner selection as
 user-facing `runnerMode`, `--stub`, or `--live` controls. Test execution uses a
 test execution profile selected by the runtime or test harness, not a different

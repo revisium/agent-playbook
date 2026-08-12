@@ -37,6 +37,18 @@ execution_profile:
     # Test profiles may add `stub-agent: available`; production role
     # frontmatter must not use stub runner ids.
 
+  # Orthogonal to `available_runners`: one entry per resolved runner id.
+  # External CLI entries still need a same-context live preflight immediately
+  # before automatic execution.
+  runner_readiness:
+    "{{RUNNER_ID}}":
+      status: ready | missing | ambiguous | unknown
+      headless_invocation: supported | unsupported | unknown
+      auth_status: configured | missing | ambiguous | not-required | unknown
+      credential_source: cached-login | invocation-env | runtime-managed | not-required | unknown
+      preflight_status: passed | failed | not-run | not-required
+      evidence_source: live-preflight | execution-profile | runtime-config | unknown
+
   # Test profile example:
   # runner_overrides:
   #   claude-code: stub-agent
@@ -73,3 +85,9 @@ execution_profile:
     budget_exhaustion_action: needs_human | stop | degrade_models
     approved_model_downgrades: []
 ```
+
+- [DECISION] `runner_readiness` does not replace runner availability or binding;
+  it is a separate input keyed by the resolved runner id.
+- [DECISION] Filled profiles contain normalized readiness only. Do not copy
+  secrets, account identifiers, raw auth or identity output, or private paths
+  into the profile.

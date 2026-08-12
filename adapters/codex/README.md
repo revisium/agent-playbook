@@ -50,6 +50,60 @@ redefining role behavior.
 7. Start Codex from the workspace root for shared multi-repo work.
 8. Keep concrete paths and accounts in ignored local overlays.
 
+## Headless Runner Mechanics
+
+These mechanics follow the official
+[Codex CLI reference](https://developers.openai.com/codex/cli/reference) and
+the installed CLI's supported auth environment.
+
+- [CODE] Use `codex exec` for a non-interactive attempt. Automation should use
+  JSONL output and an explicit sandbox, for example:
+
+  ```sh
+  codex exec --ephemeral --sandbox read-only --json "{{PROMPT}}"
+  ```
+
+- [CODE] `codex exec` can read `CODEX_API_KEY` from its effective invocation
+  environment. `codex login status` inspects cached or stored login state; it
+  does not inspect `CODEX_API_KEY` and therefore cannot establish readiness for
+  an invocation-environment credential.
+- [CODE] For `credential_source: cached-login`, run `codex login status` as the
+  zero-cost auth preflight. Exit zero means cached or stored auth is configured;
+  it does not provider-validate the credential.
+- [DECISION] For `credential_source: cached-login`, also verify without exposing
+  a value that `CODEX_API_KEY` is absent or empty in the launch environment; a
+  present, non-empty value means both sources exist.
+- [DECISION] For `credential_source: invocation-env`, the launcher verifies only
+  that `CODEX_API_KEY` is present and non-empty in the exact environment that
+  will launch `codex exec`. A value-safe shell check is:
+
+  ```sh
+  [ "${CODEX_API_KEY:+present}" = present ]
+  ```
+
+  The preflight must not print, persist, hash, record, or otherwise inspect the
+  value. Keep shell tracing and command echoing disabled around credential
+  handling.
+- [DECISION] In the invocation-environment case, `codex login status` may run
+  only as a storage-conflict check, not as evidence for `CODEX_API_KEY`. Exit
+  zero means a cached or stored source also exists.
+- [DECISION] Treat simultaneous cached-login and invocation-environment sources,
+  an unaccounted higher-priority or otherwise effective source, or a mismatch
+  with the launcher's declared source as `ambiguous` unless explicit runtime
+  configuration safely resolves the intended source before execution.
+- [DECISION] Run the source-specific preflight in the exact working directory,
+  effective environment and config, operating-system user or container, and
+  launcher that will run `codex exec`. Execute without changing that context.
+- [DECISION] Normalize preflight output to the canonical readiness fields in
+  `../../method/execution-policy.md`, then discard raw auth or identity output.
+  Never record secrets, credential values, or account identifiers.
+- [DECISION] Run `codex exec` automatically only when readiness is `ready` and
+  the execution context still matches the preflight context.
+- [DECISION] After an auth failure, do not retry automatically, automate
+  `codex login`, switch accounts or providers, fall back to another credential
+  source, or change profiles. Invalidate readiness and return the failure to the
+  orchestrator.
+
 ## Rules
 
 - Use placeholders from `method/env-boundary.md`.

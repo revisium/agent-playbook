@@ -38,6 +38,24 @@ Run it before publishing a method PR.
   runner policy, consensus, budget, and usage fields.
 - [ ] Production runner bindings come from installed playbook role `runner_id`
   values.
+- [ ] [DECISION] Execution policy, execution-profile input, route-plan owner,
+  and route-plan template use the same normalized `runner_readiness` fields and
+  key entries by resolved runner id.
+- [ ] [DECISION] Runner readiness remains orthogonal to runner availability and
+  binding; only `ready` permits automatic execution.
+- [ ] [DECISION] External CLI readiness requires a live preflight in the same
+  cwd, effective env/config, OS user or container, and launcher as execution;
+  context changes and auth failures invalidate the evidence.
+- [ ] [DECISION] Auth status is described as ready-to-attempt evidence, not
+  provider credential validation, and auth failure cannot trigger interactive
+  login, persistence, provider/account fallback, or silent profile switching.
+- [ ] [CODE] Codex and Claude Code adapter docs name their verified headless and
+  status commands, normalize and discard raw status output, and declare how the
+  launcher selects the credential source.
+- [ ] [DECISION] Route and execution-profile artifacts exclude secrets, account
+  identifiers, raw auth/identity output, and private paths.
+- [ ] [DECISION] Revo documents same-context `probe` then `execute` behavior
+  without changing the current authoring schema.
 - [ ] `rights` never derive or imply runner bindings.
 - [ ] Local and test execution profiles only override runner availability or
   bindings.

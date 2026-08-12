@@ -44,6 +44,14 @@ route_plan:
       runner_bindings_source: playbook-catalog | execution-profile | runtime-config | mixed | unknown
       runner_overrides: {}
       missing_runners: []
+      runner_readiness:
+        "{{RUNNER_ID}}":
+          status: ready | missing | ambiguous | unknown
+          headless_invocation: supported | unsupported | unknown
+          auth_status: configured | missing | ambiguous | not-required | unknown
+          credential_source: cached-login | invocation-env | runtime-managed | not-required | unknown
+          preflight_status: passed | failed | not-run | not-required
+          evidence_source: live-preflight | execution-profile | runtime-config | unknown
     consensus_policy:
       task_spec_review: none | single-reviewer | dual-model | adversarial-consensus
       architecture_review: none | single-reviewer | dual-model | adversarial-consensus
@@ -96,6 +104,12 @@ route_plan:
   approval.
 - Keep selected role runner bindings and any execution-profile overrides visible
   before approval.
+- [DECISION] Keep normalized readiness evidence visible beneath `runner_policy`
+  for every resolved runner id. Include only the canonical fields; omit raw auth
+  or identity output, account identifiers, secrets, and private paths.
+- [DECISION] Only a `ready` entry permits automatic runner execution. Context
+  changes and auth failures invalidate the entry and require a refreshed
+  preflight, capability check, and route plan.
 - Put pipeline-specific review gates in `consensus_policy.other_gates`.
 - Fill `approved_model_downgrades` when `budget_exhaustion_action` is
   `degrade_models`; otherwise model downgrades require a new route approval.

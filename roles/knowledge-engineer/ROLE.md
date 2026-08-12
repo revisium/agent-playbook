@@ -49,3 +49,4 @@ Deep.
 ## References
 
 - `references/core.md`
+- `../../references/quality/natural-language-authoring.md`

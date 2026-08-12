@@ -120,6 +120,7 @@ Deep for planning and adjudication; standard for routine routing.
 - `../../method/role-composition.md`
 - `../../checklists/requirements.md`
 - `../../references/quality/verification.md`
+- `../../references/quality/natural-language-authoring.md`
 - `references/core.md`
 - `references/intake.md`
 - `references/capability-check.md`

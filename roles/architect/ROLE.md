@@ -78,6 +78,7 @@ Deep.
 - `../../references/architecture/README.md`
 - `../../references/quality/adr-authoring.md`
 - `../../references/quality/spec-authoring.md`
+- `../../references/quality/natural-language-authoring.md`
 - `../../references/quality/minimal-sufficient-code.md`
 - `../../references/modeling/README.md`
 - `../../references/quality/README.md`

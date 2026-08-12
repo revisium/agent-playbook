@@ -321,6 +321,24 @@ unsupported, a selected runner implementation is missing, an execution-profile
 override target is missing, or a blocking clarification marker remains, the
 route must stop instead of degrading silently.
 
+### Future Headless Runner Readiness
+
+- [DECISION] A future Revo runner adapter exposes
+  `probe(context) -> normalized runner_readiness` and
+  `execute(request, same context)`. The execution call is permitted only when
+  the resolved runner entry is `ready` under
+  `../../method/execution-policy.md`.
+- [DECISION] `context` covers working directory, effective environment and
+  config, operating-system user or container, and launcher. A changed context or
+  an auth failure invalidates probe evidence before another attempt.
+- [DECISION] Durable Revo state pins only the runtime configuration reference
+  and the readiness evidence source label. It must not store a secret, raw auth
+  or identity response, account identifier, or private config path in portable
+  route evidence.
+- [DECISION] This future probe/execute contract is adapter behavior only. It
+  does not add a field to the current authoring schema and does not justify a
+  `playbook.json` schema-version bump.
+
 ## Draft Route Decision And Readiness
 
 ### Route Option Presentation

@@ -49,6 +49,14 @@ route_plan:
       runner_bindings_source: playbook-catalog | execution-profile | runtime-config | mixed | unknown
       runner_overrides: {} # production runner id -> selected runner id
       missing_runners: []
+      runner_readiness:
+        "{{RUNNER_ID}}":
+          status: ready | missing | ambiguous | unknown
+          headless_invocation: supported | unsupported | unknown
+          auth_status: configured | missing | ambiguous | not-required | unknown
+          credential_source: cached-login | invocation-env | runtime-managed | not-required | unknown
+          preflight_status: passed | failed | not-run | not-required
+          evidence_source: live-preflight | execution-profile | runtime-config | unknown
     consensus_policy:
       task_spec_review: none | single-reviewer | dual-model | adversarial-consensus
       architecture_review: none | single-reviewer | dual-model | adversarial-consensus
@@ -140,6 +148,12 @@ run_state:
   and rerun capability check before execution.
 - If runner availability or runner overrides change, regenerate the route plan
   and rerun capability check before execution.
+- [DECISION] Keep one current `runner_readiness` entry for every resolved runner
+  id selected by the route. These normalized fields are the human-visible
+  readiness evidence; do not attach raw preflight or identity output.
+- [DECISION] If launch context changes or an attempted call reports an auth
+  failure, invalidate the affected readiness entry, refresh the route plan, and
+  rerun capability check before another automatic attempt.
 - Use `consensus_policy.other_gates` for pipeline-specific review gates that do
   not fit task spec, architecture, or code review.
 - If `missing_capabilities` contains blocking items, recommend `method first` or
@@ -164,6 +178,8 @@ run_state:
 - Production runner bindings come from installed playbook role `runner_id`
   values. Local or test profiles may override runner ids without changing role
   ids, pipeline role ids, or route gates.
+- [DECISION] Only runners whose normalized readiness is `ready` may execute
+  automatically; readiness semantics come from `execution-policy.md`.
 - Stub runners may appear only as execution-profile overrides, not as production
   role ids or public product run modes.
 - `budget_exhaustion_action: degrade_models` may run without another human gate

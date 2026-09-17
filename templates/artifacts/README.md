@@ -27,6 +27,7 @@ These templates are fillable copies of canonical run artifacts.
   plan.
 - `verification-result.md` - developer, integrator, or watcher evidence from
   executed gates and PR feedback.
+- `review-handoff.md` - current pins, delta, scope, and inline unresolved findings.
 - `review-result.md` - reviewer-owned, snapshot-bound conformance, architecture,
   code-quality, verification, and independent-check verdicts.
 - `role-result.md` - role / node result envelope (typed contract).
@@ -46,6 +47,7 @@ The templates mirror schemas from these source files:
 - `../../method/usage-accounting.md`;
 - `../../method/lifecycle.md`;
 - `../../method/typed-contracts.md`;
+- `../../method/context-loading.md`;
 - `../../roles/analyst/references/core.md`;
 - `../../checklists/requirements.md`;
 - `../../roles/architect/references/core.md`;

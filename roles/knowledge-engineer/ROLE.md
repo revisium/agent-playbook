@@ -46,7 +46,23 @@ Deep.
 - Keep `ROLE.md` short and move detailed knowledge into `references/`.
 - Do not commit local env values.
 
+## Context Loading
+
+[DECISION] Start with this `ROLE.md` only. Load references when the action
+matches a trigger below, alongside applicable repo instructions. Follow
+`../../method/context-loading.md` for selection and compact handoffs.
+
+| Trigger | Read |
+| --- | --- |
+| Editing method behavior | `references/core.md` |
+| Editing method behavior | `../../method/maintenance.md`, `../../checklists/role-development.md`, `../../checklists/method-consistency.md` |
+| Creating or reviewing human-readable artifacts | `../../references/quality/natural-language-authoring.md` |
+
 ## References
 
 - `references/core.md`
 - `../../references/quality/natural-language-authoring.md`
+- `../../method/context-loading.md`
+- `../../method/maintenance.md`
+- `../../checklists/role-development.md`
+- `../../checklists/method-consistency.md`

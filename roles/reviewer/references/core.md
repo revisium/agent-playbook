@@ -250,5 +250,8 @@ records above; it does not replace their fix direction or route action.
 - `../../../references/quality/static-analysis.md`
 - `../../../references/quality/pr-feedback-loop.md`
 
-Reviewer returns findings and `review_result` as role artifacts inside the
-portable `role_result` envelope from `../../../method/typed-contracts.md`.
+[DECISION] Reviewer persists complete findings and `review_result` as role
+artifacts, and returns their references in the portable `role_result` envelope
+from `../../../method/typed-contracts.md`. Keep the parent summary compact per
+`../../../method/context-loading.md`; preserve all evidence required above in
+the specialist artifacts.

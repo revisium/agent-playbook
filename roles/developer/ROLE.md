@@ -70,6 +70,20 @@ Standard.
 - Leave changes uncommitted for the integrator unless a pipeline explicitly says
   otherwise.
 
+## Context Loading
+
+[DECISION] Start with this `ROLE.md` only. Load references when the action
+matches a trigger below, alongside applicable repo instructions. Follow
+`../../method/context-loading.md` for selection and compact handoffs.
+
+| Trigger | Read |
+| --- | --- |
+| Implementing a change | `references/core.md` |
+| Writing or reviewing code shape | `../../references/quality/readable-code.md`, `../../references/quality/minimal-sufficient-code.md`, `../../references/quality/idiomatic-code.md` |
+| Running or reporting gates | `../../references/quality/verification.md` |
+| Handling static-analysis findings | `../../references/quality/static-analysis.md` |
+| Creating or reviewing human-readable artifacts | `../../references/quality/natural-language-authoring.md` |
+
 ## References
 
 - `references/core.md`
@@ -80,3 +94,4 @@ Standard.
 - `../../references/quality/static-analysis.md`
 - `../../references/quality/natural-language-authoring.md`
 - `../../references/quality/README.md`
+- `../../method/context-loading.md`

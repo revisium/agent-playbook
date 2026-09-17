@@ -64,6 +64,19 @@ Standard; deep for state architecture, data flow, or high-risk UX workflows.
 - Run frontend-specific gates from the repo overlay.
 - Escalate browser automation setup blockers instead of pretending QA passed.
 
+## Context Loading
+
+[DECISION] Start with this `ROLE.md` only. Load references when the action
+matches a trigger below, alongside applicable repo instructions. Follow
+`../../method/context-loading.md` for selection and compact handoffs.
+
+| Trigger | Read |
+| --- | --- |
+| Performing the first owned action | `references/core.md` |
+| Composing the implementation contract | `../developer/ROLE.md` |
+| Writing or reviewing code shape | `../../references/quality/readable-code.md`, `../../references/quality/minimal-sufficient-code.md`, `../../references/quality/idiomatic-code.md` |
+| Running or reporting gates | `../../references/quality/verification.md` |
+
 ## References
 
 - `references/core.md`
@@ -71,3 +84,4 @@ Standard; deep for state architecture, data flow, or high-risk UX workflows.
 - `../../references/quality/minimal-sufficient-code.md`
 - `../../references/quality/idiomatic-code.md`
 - `../../references/quality/verification.md`
+- `../../method/context-loading.md`

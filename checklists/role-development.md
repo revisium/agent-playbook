@@ -30,8 +30,9 @@ promoted into reusable role behavior.
   handoffs, and prohibited actions.
 - [ ] `default_model_level` is portable (`cheap`, `standard`, or `deep`) and
   does not name a provider-specific concrete model.
-- [ ] `references/core.md` contains the role's always-loaded operating
-  knowledge and links to conditional references when needed.
+- [ ] `references/core.md` contains operating knowledge loaded for relevant owned
+  actions; `ROLE.md` declares triggers for other applicable references and
+  wrappers load only `ROLE.md`.
 - [ ] Shared knowledge used by more than one role lives under `references/`.
 - [ ] The role returns `needs_analyst`, `needs_architect`, `needs_human`, or
   `needs_method_materialization` instead of guessing outside its boundary.

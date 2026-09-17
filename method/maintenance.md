@@ -52,7 +52,9 @@ For routable roles:
 - update `roles/INDEX.md`;
 - update `adapters/codex/materialized/agents/<role>.toml`;
 - update `adapters/claude-code/materialized/agents/<role>.md`;
-- ensure each wrapper points to the canonical `ROLE.md` and core references;
+- ensure each wrapper loads only the canonical `ROLE.md`, whose context
+  triggers load core knowledge for relevant owned actions and other references
+  when applicable;
 - do not expose composed-only references as platform agents unless the role is
   explicitly routable.
 

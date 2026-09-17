@@ -15,6 +15,10 @@ Run it before publishing a method PR.
 ## Checklist
 
 - [ ] `node tools/validate.mjs` passes.
+- [ ] [DECISION] `npm run context:check` passes for wrapper startup and lexical
+  handoff regressions. Semantic finding and snapshot validation remains the
+  responsibility of the orchestrator and reviewer; the linter is not a gate
+  approval.
 - [ ] The change belongs to the edited owner: role, stack, framework reference,
   shared reference, pipeline, adapter, template, or local overlay.
 - [ ] `roles/INDEX.md` matches routable role files.

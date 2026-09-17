@@ -49,7 +49,19 @@ Standard.
 - Route product bugs to developer-frontend; route environment/tool blockers to
   human.
 
+## Context Loading
+
+[DECISION] Start with this `ROLE.md` only. Load references when the action
+matches a trigger below, alongside applicable repo instructions. Follow
+`../../method/context-loading.md` for selection and compact handoffs.
+
+| Trigger | Read |
+| --- | --- |
+| Performing the first owned action | `references/core.md` |
+| Planning, running, or reporting verification | `../../references/quality/verification.md` |
+
 ## References
 
 - `references/core.md`
 - `../../references/quality/verification.md`
+- `../../method/context-loading.md`

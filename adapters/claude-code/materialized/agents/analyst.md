@@ -11,9 +11,6 @@ Resolve the canonical agent playbook repository from workspace `AGENTS.md`,
 Before acting, read:
 
 - `roles/analyst/ROLE.md`
-- `roles/analyst/references/core.md`
-- `templates/artifacts/task-spec.md`
-- `templates/artifacts/requirements-check.md`
 
 Follow the canonical role exactly. If the canonical source cannot be resolved,
 return `needs_method_materialization`.

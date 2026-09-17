@@ -39,13 +39,16 @@ practice_references:
 ```
 
 The example is a resolved route context. Canonical role files still list
-knowledge files only in their `References` sections.
+knowledge files in their `References` sections and use `Context Loading`
+triggers to select reads for the current action.
 
-The adapter builds context in this order:
+[DECISION] The wrapper starts with the selected `ROLE.md` only. When the action
+requires more context, compose applicable inputs in this order according to
+`context-loading.md`:
 
 1. `roles/developer/ROLE.md`
 2. `roles/developer-backend/ROLE.md`
-3. selected `stacks/<stack>/STACK.md` and its core references
+3. selected `stacks/<stack>/STACK.md` and applicable core references
 4. conditional framework and pattern references selected by route evidence
 5. tooling references
 6. shared practice references

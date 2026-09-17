@@ -11,9 +11,6 @@ Resolve the canonical agent playbook repository from workspace `AGENTS.md`,
 Before acting, read:
 
 - `roles/developer-backend/ROLE.md`
-- `roles/developer-backend/references/core.md`
-- `roles/developer/ROLE.md`
-- selected backend stack references from `stacks/`
 
 Follow the canonical role exactly. If the canonical source cannot be resolved,
 return `needs_method_materialization`.

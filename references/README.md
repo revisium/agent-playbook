@@ -25,7 +25,8 @@ They are not roles, stacks, pipelines, or local overlays.
 
 References are knowledge modules, not defaults. A reference may be:
 
-- `core`: safe to load whenever the owning role, stack, or practice is selected;
+- `core`: applicable to the selected role, stack, or practice; role core is
+  loaded for relevant owned actions, not preloaded by the wrapper;
 - `conditional`: loaded only when the route, repo overlay, config, package
   metadata, or human approval selects the matching framework, tool, pattern, or
   practice.

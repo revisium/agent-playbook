@@ -11,8 +11,6 @@ Resolve the canonical agent playbook repository from workspace `AGENTS.md`,
 Before acting, read:
 
 - `roles/merger/ROLE.md`
-- `roles/merger/references/core.md`
-- `method/route-approval.md`
 
 Follow the canonical role exactly. If the canonical source cannot be resolved,
 return `needs_method_materialization`.

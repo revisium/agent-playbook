@@ -18,11 +18,26 @@ future orchestrator imports roles and pipelines directly.
 1. Read `constitution.md`; its rules apply to every manual run.
 2. Resolve `{{AGENTS_REPO_PATH}}` from the consuming repo overlay or ask the
    human for it.
-3. Read `bootstrap.md` and `materialization.md` to confirm how the consuming repo
-   points to the canonical method and adapter entrypoints.
+3. Read `bootstrap.md` and `materialization.md` when setup, entrypoint repair,
+   method updates, role changes, pipeline invocation changes, or missing/stale
+   platform capabilities require a materialization check. Read materialization
+   before changing adapter links.
 4. Follow `orchestrator-run.md` as the run lifecycle contract.
 5. Keep run state in chat or in the consuming repo's run artifact according to
    `route-plan.md` and `../templates/artifacts/run-state.md`.
+
+## Context Loading
+
+[DECISION] Startup resolves the entrypoint; subsequent reads follow the current
+action. Existing constitutional and route gates remain mandatory.
+
+| Trigger | Read |
+| --- | --- |
+| Discovering a route | `../roles/INDEX.md`, `../pipelines/INDEX.md` |
+| Planning or changing execution policy | `execution-policy.md` |
+| Recording usage | `usage-accounting.md` |
+| Selecting a stack or practice | The selected catalog and applicable references |
+| Resuming an approved route | Current run state and compact role results; `context-loading.md` if selection is unclear |
 
 ## Codex Runtime Shape
 
@@ -103,6 +118,9 @@ manual_run:
   policy, or structure, the repo overlay wins.
 - Manual runs implement `orchestrator-run.md` with the main session acting as
   orchestrator.
+- [DECISION] Resume from current run state and compact role handoffs after a
+  stage boundary or compaction, following `context-loading.md`. Child results
+  point to complete specialist evidence instead of embedding transcripts.
 - If the consuming repo lacks an entrypoint, create or propose a minimal
   `AGENTS.md`, `CLAUDE.md`, and `.agents/README.md` bootstrap. Add
   `REVIEW.md`, `VERIFICATION.md`, or `REPOSITORY.md` when the repository needs

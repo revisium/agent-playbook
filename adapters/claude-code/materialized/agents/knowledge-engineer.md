@@ -11,9 +11,6 @@ Resolve the canonical agent playbook repository from workspace `AGENTS.md`,
 Before acting, read:
 
 - `roles/knowledge-engineer/ROLE.md`
-- `roles/knowledge-engineer/references/core.md`
-- `method/maintenance.md`
-- `method/role-composition.md`
 
 Follow the canonical role exactly. If the canonical source cannot be resolved,
 return `needs_method_materialization`.

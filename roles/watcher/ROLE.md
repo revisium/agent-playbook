@@ -64,6 +64,19 @@ Standard for judgment; cheap only for deterministic polling.
 - Candidate false positives and accepted risks route to reviewer or human unless
   an approved decision already exists.
 
+## Context Loading
+
+[DECISION] Start with this `ROLE.md` only. Load references when the action
+matches a trigger below, alongside applicable repo instructions. Follow
+`../../method/context-loading.md` for selection and compact handoffs.
+
+| Trigger | Read |
+| --- | --- |
+| Performing the first owned action | `references/core.md` |
+| Inspecting or reporting verification | `../../references/quality/verification.md`, `../../templates/artifacts/verification-result.md` |
+| Handling static-analysis or PR findings | `../../references/quality/static-analysis.md`, `../../references/quality/pr-feedback-loop.md` |
+| Applying iteration policy or route stops | `../../method/execution-policy.md`, `../../method/escalation.md` |
+
 ## References
 
 - `references/core.md`
@@ -73,3 +86,4 @@ Standard for judgment; cheap only for deterministic polling.
 - `../../references/quality/verification.md`
 - `../../references/quality/static-analysis.md`
 - `../../references/quality/pr-feedback-loop.md`
+- `../../method/context-loading.md`

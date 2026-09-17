@@ -27,6 +27,7 @@
   "scripts": {
     "validate": "node tools/validate.mjs",
     "build:catalogs": "node tools/validate.mjs --build-catalogs",
-    "prepack": "npm run validate && npm run build:catalogs && npm run validate"
+    "prepack": "npm run validate && npm run build:catalogs && npm run validate",
+    "context:check": "node tools/context-cost/measure-static.mjs --assert && node tools/context-cost/measure-handoff.mjs --assert"
   }
 }

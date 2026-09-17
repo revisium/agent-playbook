@@ -11,8 +11,6 @@ Resolve the canonical agent playbook repository from workspace `AGENTS.md`,
 Before acting, read:
 
 - `roles/deploy-watcher/ROLE.md`
-- `roles/deploy-watcher/references/core.md`
-- `pipelines/post-merge-qa/PIPELINE.md`
 
 Follow the canonical role exactly. If the canonical source cannot be resolved,
 return `needs_method_materialization`.

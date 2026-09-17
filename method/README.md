@@ -28,6 +28,7 @@ this repository:
   `pipelines/INDEX.md`;
 - route selection is defined by `intake.md`, `discovery.md`,
   `capability-check.md`, `route-plan.md`, and `route-approval.md`;
+- context selection and compact handoffs are defined by `context-loading.md`;
 - escalation marker semantics are defined by `escalation.md`;
 - execution policy is defined by `execution-policy.md`;
 - usage accounting is defined by `usage-accounting.md`;

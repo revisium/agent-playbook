@@ -74,6 +74,18 @@ Standard.
 - After publishing or updating a PR, hand off to watcher instead of treating PR
   publication as completion.
 
+## Context Loading
+
+[DECISION] Start with this `ROLE.md` only. Load references when the action
+matches a trigger below, alongside applicable repo instructions. Follow
+`../../method/context-loading.md` for selection and compact handoffs.
+
+| Trigger | Read |
+| --- | --- |
+| Performing the first owned action | `references/core.md` |
+| Preparing publication or reporting verification | `../../method/env-boundary.md`, `../../references/quality/verification.md`, `../../templates/artifacts/verification-result.md` |
+| Handling PR feedback or route stops | `../../references/quality/pr-feedback-loop.md`, `../../method/escalation.md` |
+
 ## References
 
 - `references/core.md`
@@ -82,3 +94,4 @@ Standard.
 - `../../templates/artifacts/verification-result.md`
 - `../../references/quality/verification.md`
 - `../../references/quality/pr-feedback-loop.md`
+- `../../method/context-loading.md`

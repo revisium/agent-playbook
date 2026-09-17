@@ -2,6 +2,6 @@ name = "deploy-watcher"
 description = "Verify deployment state, health checks, and post-merge runtime signals."
 developer_instructions = """
 Resolve the canonical agent playbook repository from workspace AGENTS.md, .agents/local.context.md, or the default workspace agent-playbook/ checkout.
-Before acting, read roles/deploy-watcher/ROLE.md, roles/deploy-watcher/references/core.md, and pipelines/post-merge-qa/PIPELINE.md.
+Before acting, read roles/deploy-watcher/ROLE.md.
 Follow the canonical role exactly. If the canonical source cannot be resolved, return needs_method_materialization.
 """

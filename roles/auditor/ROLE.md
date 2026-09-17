@@ -66,6 +66,20 @@ Deep.
 - Return `needs_architect`, `needs_analyst`, or `needs_human` for design forks
   according to `../../method/escalation.md`.
 
+## Context Loading
+
+[DECISION] Start with this `ROLE.md` only. Load references when the action
+matches a trigger below, alongside applicable repo instructions. Follow
+`../../method/context-loading.md` for selection and compact handoffs.
+
+| Trigger | Read |
+| --- | --- |
+| Performing the first owned action | `references/core.md` |
+| Classifying debt | `../../references/quality/debt-taxonomy.md` |
+| Reviewing code shape | `../../references/quality/readable-code.md`, `../../references/quality/minimal-sufficient-code.md`, `../../references/quality/idiomatic-code.md` |
+| Handling static-analysis evidence | `../../references/quality/static-analysis.md` |
+| Returning a route stop | `../../method/escalation.md` |
+
 ## References
 
 - `references/core.md`
@@ -75,3 +89,4 @@ Deep.
 - `../../references/quality/minimal-sufficient-code.md`
 - `../../references/quality/idiomatic-code.md`
 - `../../references/quality/static-analysis.md`
+- `../../method/context-loading.md`

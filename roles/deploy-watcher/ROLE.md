@@ -47,7 +47,19 @@ Standard.
 - Keep deployment evidence read-only and secret-free.
 - Escalate infra ambiguity.
 
+## Context Loading
+
+[DECISION] Start with this `ROLE.md` only. Load references when the action
+matches a trigger below, alongside applicable repo instructions. Follow
+`../../method/context-loading.md` for selection and compact handoffs.
+
+| Trigger | Read |
+| --- | --- |
+| Performing the first owned action | `references/core.md` |
+| Following deployment into QA | `../../pipelines/post-merge-qa/PIPELINE.md` |
+
 ## References
 
 - `references/core.md`
 - `../../pipelines/post-merge-qa/PIPELINE.md`
+- `../../method/context-loading.md`

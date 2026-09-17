@@ -46,7 +46,11 @@ false-positive or accepted-risk policy. Missing provider access is a skipped or
 
 ## Standard Review Assurance
 
-Before a reviewer gate, the orchestrator supplies the exact target snapshot and,
+[DECISION] Before a reviewer gate, the orchestrator prepares
+`../templates/artifacts/review-handoff.md`: current pins, a short delta, inline
+unresolved findings, and concrete review instructions. Repair malformed
+transport before subject review; preserve the approved review scope and gates.
+The orchestrator supplies the exact target snapshot and,
 when source requirements apply, the exact analyst-owned source-requirements
 snapshot plus its source-id-to-immutable-pin set. The reviewer returns
 `review_result` according to

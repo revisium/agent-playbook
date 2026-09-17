@@ -64,6 +64,19 @@ Standard.
 - Do not edit code, publish commits, reply to review threads, resolve review
   threads, classify PR readiness, release, deploy, or change base branches.
 
+## Context Loading
+
+[DECISION] Start with this `ROLE.md` only. Load references when the action
+matches a trigger below, alongside applicable repo instructions. Follow
+`../../method/context-loading.md` for selection and compact handoffs.
+
+| Trigger | Read |
+| --- | --- |
+| Performing the first owned action | `references/core.md` |
+| Checking merge authorization and environment | `../../method/route-approval.md`, `../../method/env-boundary.md` |
+| Handling PR feedback or route stops | `../../references/quality/pr-feedback-loop.md`, `../../method/escalation.md` |
+| Handing off after merge | `../../pipelines/post-merge-qa/PIPELINE.md` |
+
 ## References
 
 - `references/core.md`
@@ -72,3 +85,4 @@ Standard.
 - `../../method/route-approval.md`
 - `../../references/quality/pr-feedback-loop.md`
 - `../../pipelines/post-merge-qa/PIPELINE.md`
+- `../../method/context-loading.md`

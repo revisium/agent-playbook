@@ -12,25 +12,16 @@ pipeline, select roles, bootstrap a workspace, or continue a multi-role run.
 
 1. Resolve the canonical agent playbook repository from workspace `AGENTS.md`,
    `.agents/local.context.md`, or the default workspace `agent-playbook/` checkout.
-2. Read `method/constitution.md`.
-3. Read `method/manual-run.md`.
-4. Read `method/execution-policy.md`.
-5. Read `method/usage-accounting.md`.
-6. Read `method/bootstrap.md` when setup or materialization is involved.
-7. Read `method/materialization.md` before changing `.agents`, `.codex`, or
-   `.claude` links.
-8. Discover roles from `roles/INDEX.md`.
-9. Discover pipelines from `pipelines/INDEX.md`.
-10. Before any multi-role execution or working-tree mutation, show the explicit
-    proposed route from `method/orchestrator-run.md` and wait for route
-    approval. Approval of a work order, plan, review note, or any other
-    non-route artifact only permits continuing to route planning; it does not
-    authorize implementation.
-11. When setup, method updates, role changes, pipeline invocation changes, or
-    missing platform agents/skills are involved, run the materialization
-    freshness check from `method/materialization.md` before declaring the
-    workspace ready.
-12. Use repo-local overlays for concrete commands, verification gates, review
+2. Read `method/manual-run.md` only, then follow its action-specific context
+   triggers and the canonical lifecycle. Do not preload its linked references.
+3. Before any multi-role execution or working-tree mutation, show the explicit
+   proposed route and wait for route approval as required by the manual protocol.
+   Approval of a work order, plan, review note, or another non-route artifact
+   permits route planning; it does not authorize implementation.
+4. When setup, method updates, role changes, pipeline invocation changes, or
+   missing platform agents/skills are involved, run the materialization
+   freshness check from `method/materialization.md` before declaring readiness.
+5. Use repo-local overlays for concrete commands, verification gates, review
    policy, domain facts, and environment boundaries.
 
 If the canonical source cannot be resolved, return

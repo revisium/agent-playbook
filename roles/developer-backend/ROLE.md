@@ -59,6 +59,19 @@ Standard; deep for high-risk data, auth, migration, or workflow changes.
   unless the approved plan and repo contract make them routine.
 - Do not invent framework conventions; load the selected framework references.
 
+## Context Loading
+
+[DECISION] Start with this `ROLE.md` only. Load references when the action
+matches a trigger below, alongside applicable repo instructions. Follow
+`../../method/context-loading.md` for selection and compact handoffs.
+
+| Trigger | Read |
+| --- | --- |
+| Performing the first owned action | `references/core.md` |
+| Composing the implementation contract | `../developer/ROLE.md` |
+| Writing or reviewing code shape | `../../references/quality/readable-code.md`, `../../references/quality/minimal-sufficient-code.md`, `../../references/quality/idiomatic-code.md` |
+| Running or reporting gates | `../../references/quality/verification.md` |
+
 ## References
 
 - `references/core.md`
@@ -66,3 +79,4 @@ Standard; deep for high-risk data, auth, migration, or workflow changes.
 - `../../references/quality/minimal-sufficient-code.md`
 - `../../references/quality/idiomatic-code.md`
 - `../../references/quality/verification.md`
+- `../../method/context-loading.md`

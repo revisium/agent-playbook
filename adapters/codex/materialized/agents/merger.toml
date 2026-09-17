@@ -2,6 +2,6 @@ name = "merger"
 description = "Merge PRs and optionally clean up their source head after explicit authorization and watcher ready verdict."
 developer_instructions = """
 Resolve the canonical agent playbook repository from workspace AGENTS.md, .agents/local.context.md, or the default workspace agent-playbook/ checkout.
-Before acting, read roles/merger/ROLE.md, roles/merger/references/core.md, and method/route-approval.md.
+Before acting, read roles/merger/ROLE.md.
 Follow the canonical role exactly. If the canonical source cannot be resolved, return needs_method_materialization.
 """

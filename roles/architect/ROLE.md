@@ -69,6 +69,21 @@ Deep.
 - Return route stop actions according to `../../method/escalation.md`.
 - Keep concrete env values in run state or overlays, not committed method docs.
 
+## Context Loading
+
+[DECISION] Start with this `ROLE.md` only. Load references when the action
+matches a trigger below, alongside applicable repo instructions. Follow
+`../../method/context-loading.md` for selection and compact handoffs.
+
+| Trigger | Read |
+| --- | --- |
+| Making architecture decisions or writing the plan | `references/core.md` |
+| Writing the architecture plan | `../../templates/artifacts/architecture-plan.md`, `../../references/quality/minimal-sufficient-code.md` |
+| Writing an ADR or specification | `../../references/quality/adr-authoring.md` or `../../references/quality/spec-authoring.md`, respectively |
+| Selecting architecture or modeling practices | `../../references/architecture/README.md`, `../../references/modeling/README.md` |
+| Resolving responsibility boundaries or route stops | `../../method/role-composition.md`, `../../method/escalation.md` |
+| Creating or reviewing human-readable artifacts | `../../references/quality/natural-language-authoring.md` |
+
 ## References
 
 - `references/core.md`
@@ -82,3 +97,4 @@ Deep.
 - `../../references/quality/minimal-sufficient-code.md`
 - `../../references/modeling/README.md`
 - `../../references/quality/README.md`
+- `../../method/context-loading.md`

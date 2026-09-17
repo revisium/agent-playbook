@@ -32,4 +32,7 @@ role_result:
 - Each entry in `artifacts` is an `artifact_ref`; see
   `../../templates/artifacts/artifact-ref.md`.
 - `needsHuman: true` when the role verdict is `needs_human`. Gate state such as a pending `adr-approval` is tracked in `run_state.gates` via the `human_gate` contract, not in the role result.
+- [DECISION] Keep `output` a short routing summary and return artifact/evidence
+  pointers. Preserve full specialist evidence in the referenced artifacts, not
+  child transcripts in this envelope; see `../../method/context-loading.md`.
 - `lesson` is one line; store it for future playbook improvement, not for the current run.

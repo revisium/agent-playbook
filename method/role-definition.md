@@ -48,6 +48,8 @@ Specialized roles may include `Extends` between `Purpose` and `When To Use`.
 ## Optional Sections
 
 - `Extends`: inheritance or composition links for specialized roles.
+- `Context Loading`: triggers for reading the files listed in `References`;
+  see `context-loading.md`.
 
 [DECISION] Do not add separate `practice_references` or `platform_notes`
 sections as a second source of truth. Use `References` for knowledge files and
@@ -82,7 +84,8 @@ unless the role format is changed in this file first.
 
 Use this split:
 
-- `references/core.md` - role behavior and handoff rules.
+- `references/core.md` - role behavior and handoff rules, loaded before
+  the relevant owned action rather than preloaded by the wrapper.
 - `references/review-checklist.md` - review dimensions or quality gates.
 - `references/examples/` - good and bad examples.
 

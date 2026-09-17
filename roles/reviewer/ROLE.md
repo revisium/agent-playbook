@@ -53,6 +53,11 @@ Deep.
 
 ## Hard Rules
 
+- [DECISION] Validate review transport against
+  `../../templates/artifacts/review-handoff.md` before reading subject documents.
+  Return malformed transport to the orchestrator as `changes_requested` with
+  `needsHuman: false`; actual missing human information or approval still uses
+  the existing human gate. A transport rejection is not a subject review.
 - Review real files, not only the diff.
 - [DECISION] Produce `review_result` according to
   `../../references/quality/conformance-assurance.md`; that reference owns the
@@ -72,6 +77,26 @@ Deep.
 - Return route actions according to `../../method/escalation.md` and the
   feedback owner; do not locally narrow that vocabulary.
 
+## Context Loading
+
+[DECISION] Start with this `ROLE.md` only. Load references when the action
+matches a trigger below, alongside applicable repo instructions. Follow
+`../../method/context-loading.md` for selection and compact handoffs.
+
+| Trigger | Read |
+| --- | --- |
+| Performing the first substantive review of the target | `references/core.md` |
+| Validating incoming review transport | `../../templates/artifacts/review-handoff.md` |
+| Producing a review result in any mode | `../../references/quality/conformance-assurance.md`, `../../method/escalation.md` |
+| Reviewing code shape | `../../references/quality/readable-code.md`, `../../references/quality/minimal-sufficient-code.md`, `../../references/quality/idiomatic-code.md` |
+| Reviewing verification or gates | `../../references/quality/verification.md` |
+| Handling static-analysis findings | `../../references/quality/static-analysis.md` |
+| Reviewing PR feedback | `../../references/quality/pr-feedback-loop.md` |
+| Classifying debt | `../../references/quality/debt-taxonomy.md` |
+| Reviewing a task spec or ADR | `../../references/quality/spec-authoring.md` or `../../references/quality/adr-authoring.md`, respectively |
+| Applying route consensus policy | `../../method/execution-policy.md` |
+| Creating or reviewing human-readable artifacts | `../../references/quality/natural-language-authoring.md` |
+
 ## References
 
 - `references/core.md`
@@ -88,3 +113,5 @@ Deep.
 - `../../references/quality/conformance-assurance.md`
 - `../../references/quality/static-analysis.md`
 - `../../references/quality/pr-feedback-loop.md`
+- `../../method/context-loading.md`
+- `../../templates/artifacts/review-handoff.md`

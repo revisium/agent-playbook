@@ -66,6 +66,20 @@ Deep.
 - Return route stop actions according to `../../method/escalation.md`.
 - Do not write product code.
 
+## Context Loading
+
+[DECISION] Start with this `ROLE.md` only. Load references when the action
+matches a trigger below, alongside applicable repo instructions. Follow
+`../../method/context-loading.md` for selection and compact handoffs.
+
+| Trigger | Read |
+| --- | --- |
+| Analyzing requirements or producing analyst artifacts | `references/core.md` |
+| Writing requirements or checking readiness | `../../checklists/requirements.md` |
+| Resolving responsibility boundaries or route stops | `../../method/role-composition.md`, `../../method/escalation.md` |
+| Selecting domain or modeling practices | `../../references/analysis/README.md`, `../../references/modeling/README.md` |
+| Creating or reviewing human-readable artifacts | `../../references/quality/natural-language-authoring.md` |
+
 ## References
 
 - `references/core.md`
@@ -75,3 +89,4 @@ Deep.
 - `../../references/analysis/README.md`
 - `../../references/modeling/README.md`
 - `../../references/quality/natural-language-authoring.md`
+- `../../method/context-loading.md`
